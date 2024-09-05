@@ -8,7 +8,7 @@ import IconNotify from "../assets/Icons/IconNotify";
 
 const navItems = [
   { name: "Dashboard", href: "#" },
-  { name: "Productos", href: "#" }, 
+  { name: "Productos", href: "#" },
   { name: "Proyectos", href: "/LayoutApp/Proyectos" },
   { name: "Creador", href: "/LayoutApp/Creador" },
   { name: "Contenido", href: "#" },
@@ -25,19 +25,16 @@ export default function Navbar() {
       </div>
 
       {/*NAVBAR ITEMS-LIST*/}
-      <div className="flex flex-row text-slate-950 gap-4 cursor-pointer ">
+      <div className="flex flex-row text-slate-950 gap-4 cursor-pointer">
         {navItems.map((item) => (
-          <div
-            className="py-2 px-8 text-[20px] leading-normal text-softgray hover:bg-Selector rounded-3xl active:bg-PrimaryF active:text-Clouds"
-            key={item.name}
-          >
-            <Link href={item.href}>
-              <div className=" ">{item.name} </div>
-            </Link>
-          </div>
+          <Link href={item.href} key={item.name}>
+            <div className="py-2 px-8 text-[20px] leading-normal text-softgray hover:bg-Selector rounded-3xl active:bg-PrimaryF active:text-Clouds">
+              {item.name}
+            </div>
+          </Link>
         ))}
       </div>
-      
+
       <div className="flex flex-row gap-4 items-center">
         <div className="Icon-profit">
           <IconProfit />
