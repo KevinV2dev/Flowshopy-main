@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Inter, Poppins } from "next/font/google";
+import { Poppins } from "next/font/google";
 
 const poppins = Poppins({
   weight:'400',

@@ -1,5 +1,5 @@
 import React from 'react'
-import MainLayout from '../page'
+import MainLayout from '../../components/MainLayout'
 
 
 const Creador:React.FC = () => {
