@@ -58,3 +58,11 @@ body{
 
 .Icon-Notify:active .svg-Notify{fill:#FFF;}
 .Icon-Notify:active{background-color: #6335FF;}
+
+.side-redes-span{
+  color: var(--Dark-ocean, #101040);
+font-size: 20px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
