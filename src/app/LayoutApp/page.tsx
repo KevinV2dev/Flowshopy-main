@@ -1,16 +1,13 @@
-import React, { ReactNode } from 'react';
-import Navbar from '../componnets/navbar'
+// LayoutApp/page.tsx
+import React from 'react';
+import MainLayout from './MainLayout'; // Importa el layout recién creado.
 
-interface MainLayoutProps {
-  children: ReactNode;
-}
-const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+const Page: React.FC = () => {
   return (
-    <div>
-      <Navbar />
-      <main>{children}</main>
-    </div>
+    <MainLayout>
+      <div>Contenido de la página principal</div>
+    </MainLayout>
   );
 };
 
-export default MainLayout;
+export default Page;
