@@ -1,6 +1,6 @@
 // LayoutApp/MainLayout.tsx
 import React, { ReactNode } from 'react';
-import Navbar from '../components/navbar'; // Asegúrate de que la ruta del Navbar esté correcta.
+import Navbar from './navbar'; // Asegúrate de que la ruta sea correcta
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -9,7 +9,7 @@ interface MainLayoutProps {
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
     <div>
-      <Navbar />
+      <Navbar/>
       <main>{children}</main>
     </div>
   );
