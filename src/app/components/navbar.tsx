@@ -8,7 +8,7 @@ import IconNotify from "../assets/Icons/IconNotify";
 
 const navItems = [
   { name: "Dashboard", href: "#" },
-  { name: "Productos", href: "#" },
+  { name: "Productos", href: "#" }, 
   { name: "Proyectos", href: "/LayoutApp/Proyectos" },
   { name: "Creador", href: "/LayoutApp/Creador" },
   { name: "Contenido", href: "#" },

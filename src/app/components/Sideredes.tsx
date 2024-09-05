@@ -1,5 +1,5 @@
 import React from 'react';
-import IconInstagram from '../assets/Icons/iconInstagram';
+import IconInstagram from '../assets/Icons/IconInstagram';
 import IconTiktok from '../assets/Icons/IconTiktok';
 import IconFacebook from '../assets/Icons/IconFacebook';
 import IconYt from '../assets/Icons/IconYt';

@@ -1,6 +1,5 @@
 import React from 'react'
 import MainLayout from '../../components/MainLayout'
-import IconInstagram from '@/app/assets/Icons/iconInstagram';
 import SideRedes from '../../components/Sideredes'
 const Creador:React.FC = () => {
   return (
