@@ -2,11 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+  background-color: #f9f9f9;
+}
+
 .login{
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   width: 100vw;
-  background-color: aquamarine
+  background-color: #f5f5f5
 }
+
+.Icon-profit{
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.Icon-profit:hover{
+  background-color: #EBEBEB;
+  border-radius: 12px;
+}
+
+.Icon-profit:active .svg-profit{fill:#FFF;}
+.Icon-profit:active{background-color: #6335FF;}
+
+
+.Icon-Settings{
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.Icon-Settings:hover{
+  background-color: #EBEBEB;
+  border-radius: 12px;
+}
+
+.Icon-Settings:active .svg-Settings{fill:#FFF;}
+.Icon-Settings:active{background-color: #6335FF;}
+
+
+.Icon-Notify{
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.Icon-Notify:hover{
+  background-color: #EBEBEB;
+  border-radius: 12px;
+}
+
+.Icon-Notify:active .svg-Notify{fill:#FFF;}
+.Icon-Notify:active{background-color: #6335FF;}
