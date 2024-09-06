@@ -24,7 +24,11 @@ module.exports = {
         },
         Clouds:{
           DEFAULT:'#FFF',
+        },
+        Ocean:{
+          DEFAULT:'#4045FF',
         }
+        
       }
     },
   },

@@ -1,6 +1,7 @@
 import React from 'react'
 import MainLayout from '../../components/MainLayout'
 import SideRedes from '../../components/Sideredes'
+import CreatorForm from '../../components/CreatorForm';
 const Creador:React.FC = () => {
   return (
     <MainLayout>
@@ -10,12 +11,12 @@ const Creador:React.FC = () => {
             <SideRedes/>          
         </div>
 
-        <div>
-          Creador form
+        <div className='mt-8 flex flex-col w-full'>
+          <CreatorForm/>
         </div>
 
         <div>
-          account View
+          
         </div>
 
      </div>
