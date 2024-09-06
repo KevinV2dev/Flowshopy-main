@@ -27,7 +27,15 @@ module.exports = {
         },
         Ocean:{
           DEFAULT:'#4045FF',
-        }
+        },
+        DarkGray:{
+          DEFAULT:'#302E2F',
+        },
+        DarkOcean:{
+          DEFAULT:'#101040',
+        },
+        Paper:{
+          DEFAULT:'#F9F9F9',}
         
       }
     },
