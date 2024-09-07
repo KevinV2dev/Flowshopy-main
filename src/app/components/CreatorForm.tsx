@@ -3,12 +3,29 @@ import Image from "next/image";
 import Sourcecardyt from "../assets/images/Sourcecardyt.png";
 import sourcecardshort from "../assets/images/sourcecardshort.png";
 import Iconsearch from "../assets/Icons/Iconsearch";
+import InputSearch from "./InputSearch";
+import bible from '../assets/images/bible.png'
+import ChosePlaylist from './ChosePlaylist'
+import coffe from '../assets/images/coffe.jpg'
+import Tagadd from './Tagadd'
 
 const CreatorForm: React.FC = () => {
   const cardItems = [
     { image: Sourcecardyt, text: "Video" },
     { image: sourcecardshort, text: "Short" },
   ];
+  const playlist = [
+    {
+      image: bible,
+      title:'Biblia descomplicada',
+      lastdate:'Último video añadido 10/07/2024'
+    },
+    {
+      image: coffe,
+      title:'Biblia de Nextjs',
+      lastdate:'Último video añadido 10/07/2023'
+    },
+  ]
 
   return (
     <>
@@ -49,7 +66,7 @@ const CreatorForm: React.FC = () => {
         </div>
       </div>
 
-      <div className="link-Project bg-Clouds flex flex-col p-8 rounded-2xl gap-2 ">
+      <div className="link-Project bg-Clouds flex flex-col p-4 rounded-2xl gap-2 ">
             <span className="text-xl font-semibold">Enlaza tu post a un <span className="text-PrimaryF">Proyecto:</span> </span>
               <div className="flex flex-row items-center relative ">
                 <Iconsearch className="absolute left-4"/>
@@ -63,10 +80,39 @@ const CreatorForm: React.FC = () => {
 
               <div className="flex flex-row gap-4 mt-2">
                   <label className="py-2 px-4 bg-PrimaryF rounded-2xl text-Clouds">Biblia Descomplicada</label>
-                  <label className="py-2 px-4 bg-PrimaryF rounded-2xl text-Clouds">Biblia Descomplicada</label>
+                  
               </div>
       </div>
 
+      <div className="bg-Clouds flex flex-col rounded-2xl p-4">
+        <span className="text-DarkOcean  font-medium ">Configuremos un par de cosas más.</span>
+      </div>
+
+      <div className="bg-Clouds flex flex-col p-4 rounded-2xl gap-2 ">
+            <div>
+              <span className="text-DarkOcean text-xl font-semibold p-2">Elige una <span className="text-PrimaryF">playlist</span> para tu video:</span>
+            </div>
+
+            <div className="w-full relative">
+                <InputSearch/>
+            </div>
+            
+            <div className="flex flex-row gap-4">
+               {playlist.map((card,index) =>(
+                <ChosePlaylist
+                   key={index}
+                   image={card.image}
+                   title={card.title} 
+                   lastdate={card.lastdate}
+                   />
+               ))}
+            </div>
+      </div>
+
+      <div className="bg-Clouds rounded-2xl p-4 gap-2">
+        <span className="font-semibold text-xl">Añade unas cuantas <span className="text-PrimaryF">etiquetas</span> a tu video:</span>
+         <Tagadd/>
+      </div>
     </>
   );
 };

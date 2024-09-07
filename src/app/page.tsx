@@ -1,18 +1,14 @@
 import Image from "next/image";
-import { Poppins } from "next/font/google";
-import Link from "next/link";
-const poppins = Poppins({
-  weight:'400',
-  subsets:["latin"],
 
-})
+import Link from "next/link";
+
 
 
 export default function Login() {
   return (
     <div className="login">
-      <form className={`flex flex-col gap-5 text-center items-center ${poppins.className}`}>
-        <h1 className="text-zinc-900">Login | FLOWSHOPY</h1>
+      <form className='flex flex-col gap-5 text-center items-center'>
+        <h1 className="text-zinc-900 font-bold">Login | FLOWSHOPY</h1>
         <input type="email" name="Hola" id="" placeholder="correo" />
         <Link href='/LayoutApp'>
         

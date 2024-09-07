@@ -10,6 +10,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Poppins', 'sans-serif']
+      },
       colors: {
         softgray:{
           light:'#5F5C5D',

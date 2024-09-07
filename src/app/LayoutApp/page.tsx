@@ -4,7 +4,8 @@ import MainLayout from '../components/MainLayout';
 const Page: React.FC = () => {
   return (
     <MainLayout>
-      <div>PAGINA PRINCIPAL</div>
+      <div className='font-medium'>PAGINA PRINCIPAL</div>
+      <div className='font-normal'>PAGINA PRINCIPAL</div>
     </MainLayout>
   );
 };
