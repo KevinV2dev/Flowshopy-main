@@ -40,18 +40,26 @@ const Tagsadd: React.FC = () => {
                 {tags.map((tag,index) =>(
                     <div 
                     key={index}
-                    className='rounded-2xl py-2 px-4 bg-Ocean'
+                    className=' flex flex-row rounded-2xl py-2 px-4 bg-Ocean gap-2 justify-center text-center'
                     >
-                        <span className='font-medium text-Clouds'>{tag}</span>
+                        <span 
+                        className='font-medium text-Clouds'>
+                            {tag}
+                        </span>
+
                         <button
                         onClick={() => removeTag(index)}
-                        className='text-red-600 font-bold hover:text-yellow-950'
+                        className=' block text-red-600 font-bold hover:text-yellow-950'
                         >
                             x
                         </button>
                     </div>
+            
                 ))}
         </div>
+        
+
+                
     </>
   );
 };

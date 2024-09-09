@@ -8,6 +8,8 @@ import bible from '../assets/images/bible.png'
 import ChosePlaylist from './ChosePlaylist'
 import coffe from '../assets/images/coffe.jpg'
 import Tagadd from './Tagadd'
+import ImageuploadCreator from "./ImageuploadCreator";
+
 
 const CreatorForm: React.FC = () => {
   const cardItems = [
@@ -113,6 +115,10 @@ const CreatorForm: React.FC = () => {
         <span className="font-semibold text-xl">Añade unas cuantas <span className="text-PrimaryF">etiquetas</span> a tu video:</span>
          <Tagadd/>
       </div>
+
+      <div className='p-4 bg-Clouds rounded-2xl flex flex-col'>
+                <ImageuploadCreator/>
+        </div>
     </>
   );
 };
