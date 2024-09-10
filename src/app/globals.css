@@ -97,13 +97,11 @@ line-height: normal;
 
 .main-container {
 	font-family: 'Lato';
-	width: 100%;
-  height: 583px;
-  max-height: 583px;
+	
 	margin-left: auto;
 	margin-right: auto;
   overflow-y: scroll;
-  flex: 1;
+  
   
 }
 

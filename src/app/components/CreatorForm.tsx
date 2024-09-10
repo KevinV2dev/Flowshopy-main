@@ -11,7 +11,6 @@ import Tagadd from './Tagadd'
 import ImageuploadCreator from "./ImageuploadCreator";
 import CKE from './CKE'
 
-
 const CreatorForm: React.FC = () => {
   const cardItems = [
     { image: Sourcecardyt, text: "Video" },
@@ -123,7 +122,7 @@ const CreatorForm: React.FC = () => {
 
         <div className='p-4 bg-Clouds rounded-2xl flex flex-col'>
           <span className="text-xl font-semibold">Hora de escribir el <span className="text-PrimaryF">guión para tu video</span>, deja fluir tus ideas aquí: </span>
-          <CKE/>
+          
         </div>
           <div className="flex flex-col w-full gap-2">
             <button type="submit" className="bg-PrimaryF rounded-xl py-3 px-0 text-Clouds font-semibold text-xl">¡Crear video! </button>

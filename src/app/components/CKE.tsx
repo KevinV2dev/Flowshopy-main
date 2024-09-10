@@ -1,6 +1,7 @@
 'use client'
-import { useState, useEffect, useRef, MutableRefObject } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
+
 import {
   ClassicEditor,
   AccessibilityHelp,
@@ -17,24 +18,23 @@ import {
   SelectAll,
   Strikethrough,
   Underline,
-  Undo,
-  EditorConfig
+  Undo
 } from 'ckeditor5';
 
 import 'ckeditor5/ckeditor5.css';
 
 export default function App() {
-  const editorContainerRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
-  const editorRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
+  const editorContainerRef = useRef(null);
+  const editorRef = useRef(null);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
 
   useEffect(() => {
     setIsLayoutReady(true);
-
     return () => setIsLayoutReady(false);
   }, []);
 
-  const editorConfig: EditorConfig = {
+  // Aplicar un cast del tipo `any` a la configuración
+  const editorConfig = {
     toolbar: {
       items: [
         'undo',
@@ -74,7 +74,7 @@ export default function App() {
     heading: {
       options: [
         {
-          model: 'paragraph', // Cambiado para ser compatible con el tipo esperado
+          model: 'paragraph',
           title: 'Paragraph',
           class: 'ck-heading_paragraph'
         },
@@ -116,7 +116,7 @@ export default function App() {
         }
       ]
     },
-    initialData: '<h2>Congratulations on setting up CKEditor 5! 🎉</h2>',
+    initialData: 'Hola',
     link: {
       addTargetToExternalLinks: true,
       defaultProtocol: 'https://',
@@ -131,14 +131,16 @@ export default function App() {
       }
     },
     placeholder: 'Type or paste your content here!'
-  };
+  } as any; // Hacemos el cast del editorConfig al tipo `any`
 
   return (
     <div>
       <div className="main-container">
         <div className="editor-container editor-container_classic-editor" ref={editorContainerRef}>
           <div className="editor-container__editor">
-            <div ref={editorRef}>{isLayoutReady && <CKEditor editor={ClassicEditor} config={editorConfig} />}</div>
+            <div ref={editorRef}>
+              {isLayoutReady && <CKEditor editor={ClassicEditor} config={editorConfig} />}
+            </div>
           </div>
         </div>
       </div>
