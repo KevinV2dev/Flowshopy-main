@@ -19,12 +19,6 @@ const viewerCards = [
             views: '123k views',
             likes: '456 likes',
           },
-          {
-            video: thumbnail,
-            title: 'Las 5 monjas',
-            views: '123k views',
-            likes: '456 likes',
-          },
           
         
       ];

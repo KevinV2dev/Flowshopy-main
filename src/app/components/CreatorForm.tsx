@@ -9,6 +9,7 @@ import ChosePlaylist from './ChosePlaylist'
 import coffe from '../assets/images/coffe.jpg'
 import Tagadd from './Tagadd'
 import ImageuploadCreator from "./ImageuploadCreator";
+import CKE from './CKE'
 
 
 const CreatorForm: React.FC = () => {
@@ -119,6 +120,16 @@ const CreatorForm: React.FC = () => {
       <div className='p-4 bg-Clouds rounded-2xl flex flex-col'>
                 <ImageuploadCreator/>
         </div>
+
+        <div className='p-4 bg-Clouds rounded-2xl flex flex-col'>
+          <span className="text-xl font-semibold">Hora de escribir el <span className="text-PrimaryF">guión para tu video</span>, deja fluir tus ideas aquí: </span>
+          <CKE/>
+        </div>
+          <div className="flex flex-col w-full gap-2">
+            <button type="submit" className="bg-PrimaryF rounded-xl py-3 px-0 text-Clouds font-semibold text-xl">¡Crear video! </button>
+            <button type="submit" className="bg-[#3EE9B0] rounded-xl py-3 px-0 text-Clouds font-semibold text-xl">Guardar borrador </button>
+            <button type="submit" className="bg-Selector rounded-xl py-3 px-0 text-Clouds font-semibold text-xl">Descartar video </button>
+          </div>
     </>
   );
 };
