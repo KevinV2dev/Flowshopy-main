@@ -17,12 +17,11 @@ import {
   SelectAll,
   Strikethrough,
   Underline,
-  Undo
+  Undo,
+  EditorConfig
 } from 'ckeditor5';
 
 import 'ckeditor5/ckeditor5.css';
-
-
 
 export default function App() {
   const editorContainerRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
@@ -35,7 +34,7 @@ export default function App() {
     return () => setIsLayoutReady(false);
   }, []);
 
-  const editorConfig = {
+  const editorConfig: EditorConfig = {
     toolbar: {
       items: [
         'undo',
@@ -75,7 +74,7 @@ export default function App() {
     heading: {
       options: [
         {
-          model: 'paragraph',
+          model: 'paragraph', // Cambiado para ser compatible con el tipo esperado
           title: 'Paragraph',
           class: 'ck-heading_paragraph'
         },
@@ -117,8 +116,7 @@ export default function App() {
         }
       ]
     },
-    initialData:
-      '<>Congratulations on setting up CKEditor 5! 🎉</',
+    initialData: '<h2>Congratulations on setting up CKEditor 5! 🎉</h2>',
     link: {
       addTargetToExternalLinks: true,
       defaultProtocol: 'https://',
