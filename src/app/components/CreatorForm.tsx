@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import Image from "next/image";
 import Sourcecardyt from "../assets/images/Sourcecardyt.png";
@@ -10,6 +11,7 @@ import coffe from '../assets/images/coffe.jpg'
 import Tagadd from './Tagadd'
 import ImageuploadCreator from "./ImageuploadCreator";
 import CKE from './CKE'
+import Tiptap from "./Tiptap";
 
 const CreatorForm: React.FC = () => {
   const cardItems = [
@@ -122,7 +124,7 @@ const CreatorForm: React.FC = () => {
 
         <div className='p-4 bg-Clouds rounded-2xl flex flex-col'>
           <span className="text-xl font-semibold">Hora de escribir el <span className="text-PrimaryF">guión para tu video</span>, deja fluir tus ideas aquí: </span>
-          
+          <Tiptap/>
         </div>
           <div className="flex flex-col w-full gap-2">
             <button type="submit" className="bg-PrimaryF rounded-xl py-3 px-0 text-Clouds font-semibold text-xl">¡Crear video! </button>
