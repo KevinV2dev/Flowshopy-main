@@ -1,5 +1,6 @@
 'use client'
 import React from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Sourcecardyt from "../assets/images/Sourcecardyt.png";
 import sourcecardshort from "../assets/images/sourcecardshort.png";
@@ -10,14 +11,22 @@ import ChosePlaylist from './ChosePlaylist'
 import coffe from '../assets/images/coffe.jpg'
 import Tagadd from './Tagadd'
 import ImageuploadCreator from "./ImageuploadCreator";
-import CKE from './CKE'
 import Tiptap from "./Tiptap";
+import TituloComponent from "./Titulocomponent";
 
 const CreatorForm: React.FC = () => {
+
+  // Array para Craremos Cards, de selecionar UN video o Short
   const cardItems = [
     { image: Sourcecardyt, text: "Video" },
     { image: sourcecardshort, text: "Short" },
+    
   ];
+
+  // Variable que almacena el estado si la card de Carditems Esta activa o no.
+  const [activecard, setActivecard] = useState<number | null>(null);
+
+  
   const playlist = [
     {
       image: bible,
@@ -36,11 +45,12 @@ const CreatorForm: React.FC = () => {
       <div className="rounded-2xl bg-Clouds p-4 ">
         <div className="flex flex-col gap-2 ">
           <span className="text-xl font-semibold">Crearemos...</span>
-          <div className="flex gap-4">
+          <div className="flex gap-4 ">
             {cardItems.map((item, index) => (
               <div
                 key={index}
-                className="p-3 rounded-2xl active:bg-Ocean cursor-pointer hover:bg-Selector"
+                className={`p-3 rounded-2xl  cursor-pointer transition-all duration-200 ease-in-out ${activecard === index ? 'bg-Ocean' : 'hover:bg-Selector'} `}
+                onClick={() => setActivecard(index)}
               >
                 <Image
                   src={item.image}
@@ -60,14 +70,7 @@ const CreatorForm: React.FC = () => {
 
       <div className="Title-awesome bg-Clouds flex flex-col p-4 gap-2 rounded-2xl">
         <span className="text-xl font-semibold" >¡Escribe un <span className="text-PrimaryF">título</span> increíble!</span>
-        <div>
-          <input
-          type="text"
-          name="title"
-          placeholder="Escribe aqui"
-          className="border-none focus:outline-none bg-Paper rounded-2xl px-3 py-2 items-center w-full"
-          />
-        </div>
+          <TituloComponent/>
       </div>
 
       <div className="link-Project bg-Clouds flex flex-col p-4 rounded-2xl gap-2 ">

@@ -38,7 +38,11 @@ module.exports = {
           DEFAULT:'#101040',
         },
         Paper:{
-          DEFAULT:'#F9F9F9',}
+          DEFAULT:'#F9F9F9',
+        },
+        Candy:{
+          DEFAULT:'#3EE9B0'
+        }
         
       }
     },
