@@ -27,7 +27,7 @@ const Playlist: React.FC<Playlistprops> = ({ image, title, lastdate, isActive, o
       />
       <div className="font-medium">{title}</div>
       <div className="font-light">{lastdate}</div>
-    </div>
+    </div> 
   );
 };
 

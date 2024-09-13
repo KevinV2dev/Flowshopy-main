@@ -131,9 +131,9 @@ const CreatorForm: React.FC = () => {
           <Tiptap/>
         </div>
           <div className="flex flex-col w-full gap-2">
-            <button type="submit" className="bg-PrimaryF rounded-xl py-3 px-0 text-Clouds font-semibold text-xl">¡Crear video! </button>
-            <button type="submit" className="bg-[#3EE9B0] rounded-xl py-3 px-0 text-Clouds font-semibold text-xl">Guardar borrador </button>
-            <button type="submit" className="bg-Selector rounded-xl py-3 px-0 text-Clouds font-semibold text-xl">Descartar video </button>
+            <button type="submit" className="bg-PrimaryF rounded-xl py-3 px-0 text-Clouds font-semibold text-xl hover:bg-Ocean active:bg-[#5458FF]">¡Crear video! </button>
+            <button type="submit" className="bg-[#3EE9B0] rounded-xl py-3 px-0 text-Clouds font-semibold text-xl hover:bg-[#61DEB5] active:bg-[#41D3A3]">Guardar borrador </button>
+            <button type="submit" className="bg-Selector rounded-xl py-3 px-0 text-Clouds font-semibold text-xl  hover:bg-Selector-Hovered active:bg-Selector-PRESSED mb-[128px] ">Descartar video </button>
           </div>
     </>
   );

@@ -26,7 +26,7 @@ const viewerCards = [
 
     <div className='container-view flex flex-col gap-4 w-[368px] p-4 bg-Clouds rounded-2xl '>
       <div className='Profile-view relative flex flex-col items-center justify-center '>
-        <div className='absolute top-0 right-0'>
+        <div className=' logout absolute top-0 right-0 cursor-pointer'>
         <IconLink/>
         </div>
         <div className='Profile-pic'>
@@ -40,7 +40,7 @@ const viewerCards = [
         </div>
         <span className='text-xl text-DarkGray font-normal'>Sioswel Medina</span>
         <label className='font-normal text-xs text-DarkGray'>@Sioswel</label>
-        <button className='rounded-2xl bg-PrimaryF py-2 px-4 text-Clouds font-semibold text-base'>Cambiar de Cuenta</button>
+        <button className='rounded-2xl bg-PrimaryF py-2 px-4 text-Clouds font-semibold text-base hover:bg-Ocean active:bg-PrimaryF-PRESSED'>Cambiar de Cuenta</button>
       </div>
 
         <div className='flex flex-col gap-4'>

@@ -13,7 +13,7 @@ const navItems = [
   { name: "Productos", href: "/" },
   { name: "Proyectos", href: "/LayoutApp/Proyectos" },
   { name: "Creador", href: "/LayoutApp/Creador" },
-  { name: "Contenido", href: "/" },
+  { name: "Contenido", href: "/LayoutApp/Contenido" },
   { name: "Cuentas", href: "/" },
 ];
 

@@ -111,6 +111,15 @@ line-height: normal;
 	word-break: break-word;
 }
 
+.logout:hover .svg-logout {
+  fill: #4045FF;
+  cursor: pointer;
+  
+}
+
+
+
+
 
 
 

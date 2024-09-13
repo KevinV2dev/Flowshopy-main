@@ -21,9 +21,12 @@ module.exports = {
         },
         Selector:{
           DEFAULT:'#EBEBEB',
+          PRESSED:'#D7D7D7',
+          Hovered:'#DCDCDC',
         },
         PrimaryF:{
           DEFAULT:'#6335FF',
+          PRESSED:'#5458FF'
         },
         Clouds:{
           DEFAULT:'#FFF',
