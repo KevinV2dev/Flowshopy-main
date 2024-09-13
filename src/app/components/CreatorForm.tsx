@@ -23,17 +23,21 @@ const CreatorForm: React.FC = () => {
     
   ];
 
-  // Variable que almacena el estado si la card de Carditems Esta activa o no.
-  const [activecard, setActivecard] = useState<number | null>(null);
+  // Varibles Almacenadas para Active o false
+  const [activecard, setActivecard] = useState<number | null>(null); // HOOK PARA CARD DE CREAREMOS
+  const [activeplaylist, setActiveplaylist] = useState<number | null>(null); // HOOK PARA CARD PLAYLIST
+  
 
   
   const playlist = [
     {
+      
       image: bible,
       title:'Biblia descomplicada',
       lastdate:'Último video añadido 10/07/2024'
     },
     {
+      
       image: coffe,
       title:'Biblia de Nextjs',
       lastdate:'Último video añadido 10/07/2023'
@@ -75,15 +79,9 @@ const CreatorForm: React.FC = () => {
 
       <div className="link-Project bg-Clouds flex flex-col p-4 rounded-2xl gap-2 ">
             <span className="text-xl font-semibold">Enlaza tu post a un <span className="text-PrimaryF">Proyecto:</span> </span>
-              <div className="flex flex-row items-center relative ">
-                <Iconsearch className="absolute left-4"/>
-                  <input
-                  type="search"
-                  name="projects"
-                  placeholder="Busca Aqui"
-                  className="border-none focus:outline-none bg-Paper rounded-2xl px-10 py-2  items-center w-full"
-                  />
-              </div>
+              <div className="w-full relative">
+                <InputSearch/>
+            </div>
 
               <div className="flex flex-row gap-4 mt-2">
                   <label className="py-2 px-4 bg-PrimaryF rounded-2xl text-Clouds">Biblia Descomplicada</label>
@@ -107,10 +105,13 @@ const CreatorForm: React.FC = () => {
             <div className="flex flex-row gap-4">
                {playlist.map((card,index) =>(
                 <ChosePlaylist
-                   key={index}
-                   image={card.image}
-                   title={card.title} 
-                   lastdate={card.lastdate}
+                key={index}
+                image={card.image}
+                title={card.title}
+                lastdate={card.lastdate}
+                isActive={activeplaylist === index} // Verifica si la card está activa
+                onClick={() => setActiveplaylist(index)} // Actualiza la card activa
+                   
                    />
                ))}
             </div>
