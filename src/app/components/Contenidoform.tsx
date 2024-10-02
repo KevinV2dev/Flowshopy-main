@@ -6,6 +6,7 @@ import CustomCheckbox from "./CustomCheck";
 import Lorem from "./lorem";
 import bible from '../assets/images/bible.png';
 import { Video } from "lucide-react";
+import CopyIcon from "../assets/Icons/CopyIcon";
 
 interface Item {
   id: string;
@@ -79,12 +80,16 @@ const Contenidolist: React.FC = () => {
               <label className="text-lg">{item.project}</label>
             </div>
             <div className="flex flex-col">
+            
               <span className="text-sm text-softgray">Identificador</span>
-              <label className="text-lg">{item.identifier}</label>
+              <div className="flex flex-row items-center gap-2">
+              <label className="text-lg">{item.identifier}  </label>
+              <CopyIcon/>
+              </div>
             </div>
           </div>
 
-          <div className={`flex flex-col gap-[42px] ${expandedItem === item.id ? "pt-[42px]" : "mt-0"} overflow-hidden transition-all duration-500 ease-in-out ${expandedItem === item.id ? "max-h-[779px]" : "max-h-0"}`}>
+          <div className={`flex flex-col gap-[42px] ${expandedItem === item.id ? "pt-[42px]" : "mt-0"} overflow-hidden transition-all duration-500  ease-in-out ${expandedItem === item.id ? "max-h-[779px]" : "max-h-0"}`}>
             <div className="flex justify-between">
               {["Comprobando Guion", "Analizando Etiquetas", "Buscando Público", "Creando Recursos", "Creando Video", "Video Terminado"].map((label, index) => (
                 <div key={index} className="flex flex-col items-center">
