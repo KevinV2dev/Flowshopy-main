@@ -16,6 +16,7 @@ import TituloComponent from "./Titulocomponent";
 
 const CreatorForm: React.FC = () => {
 
+  const [searchValue, setSearchValue] = useState('');
   // Array para Craremos Cards, de selecionar UN video o Short
   const cardItems = [
     { image: Sourcecardyt, text: "Video" },
@@ -80,7 +81,13 @@ const CreatorForm: React.FC = () => {
       <div className="link-Project bg-Clouds flex flex-col p-4 rounded-2xl gap-2 ">
             <span className="text-xl font-semibold">Enlaza tu post a un <span className="text-PrimaryF">Proyecto:</span> </span>
               <div className="w-full relative">
-                <InputSearch/>
+              <InputSearch
+                  placeholder='Selecciona uno o varios idiomas'
+                  type='search'
+                  icon={<Iconsearch/>}
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  />
             </div>
 
               <div className="flex flex-row gap-4 mt-2">
@@ -99,7 +106,13 @@ const CreatorForm: React.FC = () => {
             </div>
 
             <div className="w-full relative">
-                <InputSearch/>
+            <InputSearch
+                  placeholder='Selecciona uno o varios idiomas'
+                  type='search'
+                  icon={<Iconsearch/>}
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  />
             </div>
             
             <div className="flex flex-row gap-4">

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import CheckIcon from '../assets/Icons/Checkicon';
 import InputSearch from './InputSearch';
 import Iconsearch from '../assets/Icons/Iconsearch';
+import IconTag from '../assets/Icons/Icontag';
 interface Props {
   
 }
@@ -11,6 +12,7 @@ interface Props {
 
 const Crearproyecto: React.FC<Props> = ({  }) => {
   const [searchValue, setSearchValue] = useState('');
+  const [searchValue2, setSearchValue2] = useState('');
 
 
   return (
@@ -52,7 +54,7 @@ const Crearproyecto: React.FC<Props> = ({  }) => {
                 </div>
             </div>
 
-            <div className='flex flex-col rounded-2xl bg-Clouds'>
+            <div className='bg-Clouds flex flex-col gap-4 p-4 rounded-2xl'>
             <span className='font-semibold text-xl'> Elige un
                 <span className=' inline-flex px-1'>
                       <span className='text-PrimaryF'>Idioma</span>
@@ -60,9 +62,25 @@ const Crearproyecto: React.FC<Props> = ({  }) => {
                       <Image src='/proyectocheck.svg' className='ml-[10px]' width={24} height={24} alt="flag"/> 
                 </span> 
               </span>
+              <InputSearch
+                  placeholder='Selecciona uno o varios idiomas'
+                  type='search'
+                  icon={<IconTag/>}
+                  value={searchValue2}
+                  onChange={(e) => setSearchValue2(e.target.value)}
+                  />
+
+               <div className='flex gap-4 '>
+                <label className='rounded-2xl bg-Selector text-DarkGray py-1 px-4'> Inglés </label>
+                <label className='rounded-2xl bg-Selector text-DarkGray py-1 px-4'> Español </label>
+                
+                </div>
             </div>
 
-
+              <div className='flex flex-col gap-4 '>
+                <button className='bg-PrimaryF rounded-xl py-3 text-Clouds font-semibold text-xl'>Crear Proyecto</button>
+                <button className='bg-Selector rounded-xl py-3 text-DarkGray font-semibold text-xl'>Cancelar</button>
+              </div>
 
 
         </div>
