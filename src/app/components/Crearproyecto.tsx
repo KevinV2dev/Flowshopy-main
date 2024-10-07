@@ -4,13 +4,13 @@ import CheckIcon from '../assets/Icons/Checkicon';
 import InputSearch from './InputSearch';
 import Iconsearch from '../assets/Icons/Iconsearch';
 import IconTag from '../assets/Icons/Icontag';
+import Link from 'next/link';
 interface Props {
-  
+  onCancelar: () => void;
 }
-
   
 
-const Crearproyecto: React.FC<Props> = ({  }) => {
+const Crearproyecto: React.FC<Props> = ({ onCancelar }) => {
   const [searchValue, setSearchValue] = useState('');
   const [searchValue2, setSearchValue2] = useState('');
 
@@ -78,8 +78,9 @@ const Crearproyecto: React.FC<Props> = ({  }) => {
             </div>
 
               <div className='flex flex-col gap-4 '>
-                <button className='bg-PrimaryF rounded-xl py-3 text-Clouds font-semibold text-xl'>Crear Proyecto</button>
-                <button className='bg-Selector rounded-xl py-3 text-DarkGray font-semibold text-xl'>Cancelar</button>
+                <button  className='bg-PrimaryF rounded-xl py-3 text-Clouds font-semibold text-xl'>Crear Proyecto</button>
+                <button onClick={onCancelar} className='bg-Selector rounded-xl py-3 text-DarkGray font-semibold text-xl w-full'>Cancelar</button>
+                
               </div>
 
 
@@ -88,7 +89,27 @@ const Crearproyecto: React.FC<Props> = ({  }) => {
         </section>
 
 
-      <div className='bg-Clouds rounded-2xl h-full  w-[400px]'> Hola 2</div>
+      <div className='bg-Clouds rounded-2xl h-full  w-[400px] py-6 px-4'>
+        <div className=' flex flex-col gap-8'>
+          <div className=''>
+          <h3 className=' font-semibold text-DarkOcean text-xl'>¿Qué es un proyecto?</h3>
+          <p className='text-DarkGray font-normal text-[14px]'>Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.</p>
+          </div>
+          <div className=''>
+          <h3 className=' font-semibold text-DarkOcean text-xl'>¿Titulo?</h3>
+          <p className='text-DarkGray font-normal text-[14px]'>Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.</p>
+          </div>
+          <div className=''>
+          <h3 className=' font-semibold text-DarkOcean text-xl'>¿Productos?</h3>
+          <p className='text-DarkGray font-normal text-[14px]'>Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.</p>
+          </div>
+          <div className=''>
+          <h3 className=' font-semibold text-DarkOcean text-xl'>¿Idioma?</h3>
+          <p className='text-DarkGray font-normal text-[14px]'>Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.</p>
+          </div>
+        </div>
+        
+      </div>
     </div>
   );
 };

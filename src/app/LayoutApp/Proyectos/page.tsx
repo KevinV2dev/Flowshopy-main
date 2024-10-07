@@ -20,7 +20,7 @@ const PageProyectos: React.FC = () => {
     {selectedAction === 'ver' ? (
             <Proyectos/>  // Mostrar proyectos por defecto
           ) : selectedAction === 'crear' ? (
-            <Crearproyecto />  
+            <Crearproyecto onCancelar={() => setSelectedAction('ver')} />  
           ) : selectedAction === 'editar' ? (
             <Proyectos />  // Mostrar editar proyecto
           ) : (

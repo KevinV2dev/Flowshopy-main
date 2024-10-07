@@ -16,6 +16,7 @@
     "@tiptap/pm": "^2.6.6",
     "@tiptap/react": "^2.6.6",
     "@tiptap/starter-kit": "^2.6.6",
+    "axios": "^1.7.7",
     "ckeditor5": "^43.1.0",
     "lucide-react": "^0.439.0",
     "next": "14.2.7",
