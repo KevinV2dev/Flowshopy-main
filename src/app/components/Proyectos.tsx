@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import CopyIcon from '../assets/Icons/CopyIcon';
 import CheckIcon from '../assets/Icons/Checkicon';
+import apiFetch from '../apiServices';
 
 // Interfaz para definir la estructura de los datos del proyecto
 interface Project {
@@ -14,38 +15,33 @@ interface Project {
   };
 }
 
+interface Post {
+  id: number;
+  attributes: {
+  title: string;
+  };
+}
+
 const Proyectos: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]); // Estado para almacenar los proyectos obtenidos de la API
+  const [post, setPost] = useState<Post | null>(null); // Estado para almacenar los datos del post
   const [expandedItem, setExpandedItem] = useState<number | null>(null); // Estado para manejar la expansión de los proyectos
   const [error, setError] = useState<string | null>(null); // Estado para manejar posibles errores
 
   // Función para obtener los proyectos desde la API
   const fetchProjects = async () => {
     try {
-      const response = await fetch('https://strapi-admin-dev.flowshopy.com.br/api/projects', {
-        method: 'GET',
-        headers: {
-          'Authorization': 'Bearer 8528c3a83cc2a14c13dbe81f0ed905b5a636c1bf369be64f5d402665005f3b2e954c17dc07ea83b5cda2fdd719769afaf44734581c31f44fe262ddd946e1d9546350fcee90b85c36b6a3619b9fcd24f891f1b771d07644e92c002c6a5c37519635dd3c7d0cc1cc5e4575dda60dbf5f882b39b7f9fad0b6a50ff0bbe9916fd83a'
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Error al obtener los proyectos');
-      }
-
-      const data = await response.json();
+      const data = await apiFetch('/projects'); // Llamada a la API usando el servicio
       setProjects(data.data); // Asignamos los proyectos al estado
     } catch (error: any) {
       setError(error.message);
     }
   };
 
-  // Llamada a la API al montar el componente
   useEffect(() => {
     fetchProjects();
   }, []);
 
-  // Función para expandir y colapsar las tarjetas de proyectos
   const toggleExpand = (id: number) => {
     setExpandedItem((prev) => (prev === id ? null : id));
   };
@@ -93,7 +89,7 @@ const Proyectos: React.FC = () => {
                   <span className="text-DarkOcean text-lg font-semibold">{project.id}</span>
                   <CopyIcon />
                 </div>
-              </div>
+              </div> 
 
               <CheckIcon />
 
@@ -115,7 +111,7 @@ const Proyectos: React.FC = () => {
                   <div className='flex flex-col gap-1'>
                     <h3> AQUI VA EL  TITLE</h3>
                     <span>AQUI VA LA FECHA</span>
-                    <label>Publicado</label>
+                    <label className=' flex py-[6px] px-[10px] bg-Ocean rounded-2xl  text-Clouds text-[10px] text font-semibold  max-w-[71px]'>Publicado</label>
                   </div>
                 </div>
 

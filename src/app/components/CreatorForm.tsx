@@ -14,6 +14,7 @@ import ImageuploadCreator from "./ImageuploadCreator";
 import Tiptap from "./Tiptap";
 import TituloComponent from "./Titulocomponent";
 
+
 const CreatorForm: React.FC = () => {
 
   const [searchValue, setSearchValue] = useState('');
@@ -27,9 +28,43 @@ const CreatorForm: React.FC = () => {
   // Varibles Almacenadas para Active o false
   const [activecard, setActivecard] = useState<number | null>(null); // HOOK PARA CARD DE CREAREMOS
   const [activeplaylist, setActiveplaylist] = useState<number | null>(null); // HOOK PARA CARD PLAYLIST
+  const [title, setTitle] = useState(''); // Estado para el título
+  const [content, setContent] = useState(''); // Estado para el contenido
   
 
-  
+    // Función para crear un nuevo post
+  const createPost = async () => {
+    try {
+      const response = await fetch('https://strapi-admin-dev.flowshopy.com.br/api/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer a621301477fae00eaa4a0e96b2c33233f882b50332882e8876397b494cab3c94127367a699f89bafb87455d508a766c339f47efc4a63bc78060f08af01927d811d318333b9fcd5ffc83f23f9ce1edb0d2f709b31297f26c883cc732a30cd4074b84e7a83a862f826bb3ae1ce5003b8666536a366e2583fb08b8f7592ad5b0198', // Token de autenticación
+        },
+        body: JSON.stringify({
+          data: {
+            title,    // Usamos el título que el usuario haya escrito
+            content,  // Usamos el contenido del editor de texto
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();  // Obtener el mensaje de error en caso de fallo
+        throw new Error(`Error creando el post: ${errorText}`);
+      }
+      const data = await response.json();
+      console.log('Post creado con éxito:', data);
+      alert('¡El post se ha creado con éxito!');
+    } catch (error) {
+      console.error(error);
+      alert('Hubo un error al crear el post');
+    }
+  };
+
+   
+   
+
   const playlist = [
     {
       
@@ -75,7 +110,7 @@ const CreatorForm: React.FC = () => {
 
       <div className="Title-awesome bg-Clouds flex flex-col p-4 gap-2 rounded-2xl">
         <span className="text-xl font-semibold" >¡Escribe un <span className="text-PrimaryF">título</span> increíble!</span>
-          <TituloComponent/>
+          <TituloComponent value={title} onChange={setTitle}/>
       </div>
 
       <div className="link-Project bg-Clouds flex flex-col p-4 rounded-2xl gap-2 ">
@@ -141,10 +176,10 @@ const CreatorForm: React.FC = () => {
 
         <div className='p-4 bg-Clouds rounded-2xl flex flex-col'>
           <span className="text-xl font-semibold">Hora de escribir el <span className="text-PrimaryF">guión para tu video</span>, deja fluir tus ideas aquí: </span>
-          <Tiptap/>
+          <Tiptap content={content} onChange={setContent}/>
         </div>
           <div className="flex flex-col w-full gap-2">
-            <button type="submit" className="bg-PrimaryF rounded-xl py-3 px-0 text-Clouds font-semibold text-xl hover:bg-Ocean active:bg-[#5458FF]">¡Crear video! </button>
+            <button type="submit" onClick={createPost}  className="bg-PrimaryF rounded-xl py-3 px-0 text-Clouds font-semibold text-xl hover:bg-Ocean active:bg-[#5458FF]">¡Crear video! </button>
             <button type="submit" className="bg-[#3EE9B0] rounded-xl py-3 px-0 text-Clouds font-semibold text-xl hover:bg-[#61DEB5] active:bg-[#41D3A3]">Guardar borrador </button>
             <button type="submit" className="bg-Selector rounded-xl py-3 px-0 text-Clouds font-semibold text-xl  hover:bg-Selector-Hovered active:bg-Selector-PRESSED mb-[128px] ">Descartar video </button>
           </div>
