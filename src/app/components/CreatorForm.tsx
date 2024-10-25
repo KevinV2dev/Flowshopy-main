@@ -9,7 +9,7 @@ import Tagadd from './Tagadd';
 import ImageuploadCreator from './ImageuploadCreator';
 import Tiptap from './Tiptap';
 import TituloComponent from './Titulocomponent';
-import { createPostWithProject } from '../apiServices';
+import { createPostWithProject, uploadImage } from '../apiServices';
 import apiFetch from '../apiServices';
 
 // Define la estructura de cada proyecto
@@ -23,14 +23,16 @@ interface Project {
 }
 
 const CreatorForm: React.FC = () => {
-  const [searchValue, setSearchValue] = useState(''); 
-  const [projects, setProjects] = useState<Project[]>([]); // Define el tipo como Project[]
+  const [searchValue, setSearchValue] = useState('');
+  const [projects, setProjects] = useState<Project[]>([]);
   const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
-  const [selectedProject, setSelectedProject] = useState<number | null>(null); 
-  const [selectedProjectName, setSelectedProjectName] = useState(''); 
-  const [title, setTitle] = useState(''); 
-  const [content, setContent] = useState(''); 
-  const [activecard, setActivecard] = useState<number | null>(null); 
+  const [selectedProject, setSelectedProject] = useState<number | null>(null);
+  const [selectedProjectName, setSelectedProjectName] = useState('');
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [activecard, setActivecard] = useState<number | null>(null);
+  const [imageId, setImageId] = useState<number | null>(null);
+  const [isImageUploaded, setIsImageUploaded] = useState(false); // Controla si la imagen ha sido subida
 
   const cardItems = [
     { image: Sourcecardyt, text: 'Video' },
@@ -58,13 +60,44 @@ const CreatorForm: React.FC = () => {
     );
   }, [searchValue, projects]);
 
+  const handleImageUpload = (file: File) => {
+    setIsImageUploaded(false); // Reinicia el estado de imagen subida hasta que se haga clic en "Guardar borrador"
+    setImageId(null);
+  };
+
+  const saveDraft = async () => {
+    if (!imageId) {
+      try {
+        const file = document.getElementById("image-upload") as HTMLInputElement;
+        const fileToUpload = file?.files ? file.files[0] : null;
+        if (fileToUpload) {
+          const id = await uploadImage(fileToUpload);
+          setImageId(id);
+          setIsImageUploaded(true);
+          alert('Imagen subida y guardada como borrador con éxito');
+        } else {
+          alert('Por favor, selecciona una imagen antes de guardar el borrador.');
+        }
+      } catch (error) {
+        console.error('Error al subir la imagen:', error);
+        alert('Hubo un error al subir la imagen');
+      }
+    }
+  };
+
   const createPost = async () => {
+    if (!isImageUploaded) {
+      alert('Por favor, sube una imagen y guarda el borrador antes de crear el video.');
+      return;
+    }
+
     if (!selectedProject) {
       alert('Por favor, selecciona un proyecto');
       return;
     }
+
     try {
-      const response = await createPostWithProject(title, content, selectedProject);
+      const response = await createPostWithProject(title, content, selectedProject, imageId!);
       console.log('Post creado con éxito:', response);
       alert('¡El post se ha creado con éxito!');
     } catch (error) {
@@ -164,7 +197,7 @@ const CreatorForm: React.FC = () => {
       </div>
 
       <div className="p-4 bg-Clouds rounded-2xl flex flex-col">
-        <ImageuploadCreator />
+        <ImageuploadCreator onImageUpload={handleImageUpload} />
       </div>
 
       <div className="p-4 bg-Clouds rounded-2xl flex flex-col">
@@ -175,21 +208,30 @@ const CreatorForm: React.FC = () => {
       </div>
 
       <div className="flex flex-col w-full gap-2">
-        <button
+
+      <button
           type="submit"
           onClick={createPost}
-          className="bg-PrimaryF rounded-xl py-3 px-0 text-Clouds font-semibold text-xl hover:bg-Ocean active:bg-[#5458FF]"
+          disabled={!isImageUploaded}
+          className={`rounded-xl py-3 px-0 text-Clouds font-semibold text-xl hover:bg-Candy active:bg-[#5458FF] ${
+            isImageUploaded ? 'bg-Candy' : 'bg-gray-400 cursor-not-allowed'
+          }`}
         >
           ¡Crear video!
         </button>
+
+
         <button
-          type="submit"
-          className="bg-[#3EE9B0] rounded-xl py-3 px-0 text-Clouds font-semibold text-xl hover:bg-[#61DEB5] active:bg-[#41D3A3]"
+          type="button"
+          className="bg-PrimaryF rounded-xl py-3 px-0 text-Clouds font-semibold text-xl hover:bg-Ocean active:bg-[#5458FF]"
+          onClick={saveDraft}
         >
           Guardar borrador
         </button>
+
+        
         <button
-          type="submit"
+          type="button"
           className="bg-Selector rounded-xl py-3 px-0 text-Clouds font-semibold text-xl hover:bg-Selector-Hovered active:bg-Selector-PRESSED mb-[128px]"
         >
           Descartar video
