@@ -24,6 +24,11 @@ const apiFetch = async (endpoint: string, options: RequestInit = {}) => {
   }
 };
 
+// Función para obtener todos los proyectos
+export const fetchProjects = async () => {
+  return await apiFetch('/projects');
+};
+
 // Función para obtener posts asociados a un proyecto específico
 export const fetchPostsByProject = async (projectId: number) => {
   return await apiFetch(`/posts?filters[project_id][id]=${projectId}&populate=*`);
