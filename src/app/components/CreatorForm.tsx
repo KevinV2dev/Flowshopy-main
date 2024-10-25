@@ -12,10 +12,20 @@ import TituloComponent from './Titulocomponent';
 import { createPostWithProject } from '../apiServices';
 import apiFetch from '../apiServices';
 
+// Define la estructura de cada proyecto
+interface Project {
+  id: number;
+  attributes: {
+    name: string;
+    language: string;
+    createdAt: string;
+  };
+}
+
 const CreatorForm: React.FC = () => {
   const [searchValue, setSearchValue] = useState(''); 
-  const [projects, setProjects] = useState([]); 
-  const [filteredProjects, setFilteredProjects] = useState([]); 
+  const [projects, setProjects] = useState<Project[]>([]); // Define el tipo como Project[]
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<number | null>(null); 
   const [selectedProjectName, setSelectedProjectName] = useState(''); 
   const [title, setTitle] = useState(''); 
@@ -42,7 +52,7 @@ const CreatorForm: React.FC = () => {
 
   useEffect(() => {
     setFilteredProjects(
-      projects.filter((project: any) =>
+      projects.filter((project) =>
         project.attributes?.name?.toLowerCase().includes(searchValue.toLowerCase())
       )
     );
@@ -122,7 +132,7 @@ const CreatorForm: React.FC = () => {
 
         {selectedProject && (
           <div className="mt-4">
-            <p>Proyecto seleccionado: {projects.find((p) => p.id === selectedProject)?.attributes.name}</p>
+            <p>Proyecto seleccionado: {projects.find((p) => p.id === selectedProject)?.attributes?.name || 'No encontrado'}</p>
           </div>
         )}
       </div>
