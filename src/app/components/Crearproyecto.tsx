@@ -42,12 +42,13 @@ const Crearproyecto: React.FC<Props> = ({ onCancelar }) => {
                 </span> 
               </span>
                   <InputSearch
-                  placeholder='Busca un Producto'
-                  type='search'
-                  icon={<Iconsearch/>}
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
-                  />
+              placeholder='Busca un Producto'
+              type='search'
+              icon={<Iconsearch />}
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)} results={[]} onResultSelect={function (id: number, name: string): void {
+                throw new Error('Function not implemented.');
+              } }                  />
                 <div className='flex gap-4 '>
                 <label className='rounded-2xl bg-PrimaryF text-Clouds py-2 px-4'> Producto </label>
                 <label className='rounded-2xl bg-PrimaryF text-Clouds py-2 px-4'> Producto </label>
@@ -63,12 +64,13 @@ const Crearproyecto: React.FC<Props> = ({ onCancelar }) => {
                 </span> 
               </span>
               <InputSearch
-                  placeholder='Selecciona uno o varios idiomas'
-                  type='search'
-                  icon={<IconTag/>}
-                  value={searchValue2}
-                  onChange={(e) => setSearchValue2(e.target.value)}
-                  />
+              placeholder='Selecciona uno o varios idiomas'
+              type='search'
+              icon={<IconTag />}
+              value={searchValue2}
+              onChange={(e) => setSearchValue2(e.target.value)} results={[]} onResultSelect={function (id: number, name: string): void {
+                throw new Error('Funcion no implementada');
+              } }                  />
 
                <div className='flex gap-4 '>
                 <label className='rounded-2xl bg-Selector text-DarkGray py-1 px-4'> Inglés </label>
