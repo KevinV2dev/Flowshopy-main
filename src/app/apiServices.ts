@@ -13,9 +13,11 @@ const apiFetch = async (endpoint: string, options: RequestInit = {}) => {
 
   try {
     const response = await fetch(url, defaultOptions);
-    if (!response.ok) {
-      throw new Error(`Error en la solicitud: ${response.statusText}`);
-    }
+if (!response.ok) {
+  const errorData = await response.json();
+  console.error('Detalles del error:', errorData); // Esto imprime detalles del error de Strapi
+  throw new Error(`Error en la solicitud: ${response.statusText}`);
+}
     const data = await response.json();
     return data;
   } catch (error: any) {
@@ -73,7 +75,26 @@ export const createPostWithProject = async (title: string, content: string, proj
       },
     }),
   });
+
+  
 };
+
+// Función para actualizar un post existente
+export const updatePost = async (postId: number, title: string, content: string, featuredImageId: number) => {
+  return await apiFetch(`/posts/${postId}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      data: {
+        title,
+        content,
+        featuredImage: featuredImageId ? { id: featuredImageId } : null,
+      },
+    }),
+  });
+};
+
+
+
 
 
 

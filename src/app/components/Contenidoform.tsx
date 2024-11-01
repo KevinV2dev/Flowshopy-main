@@ -7,12 +7,14 @@ import Content from "./Content";
 import bible from '../assets/images/bible.png';
 import { Video } from "lucide-react";
 import CopyIcon from "../assets/Icons/CopyIcon";
+import { fetchPostsByProject } from "../apiServices";
 
 interface Post {
   id: string;
   attributes: {
     title: string;
     content: string;
+    tags: { name: string }[];
     project_id: {
       data: {
         attributes: {
@@ -50,6 +52,7 @@ const LinkedVideo: Video[] = [
 const Contenidolist: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [projects, setProjects] = useState<{ [key: number]: Project }>({});
+  const [tags, setTags] = useState<string[]>([]);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
@@ -68,6 +71,12 @@ const Contenidolist: React.FC = () => {
 
       const data = await response.json();
       const newPosts = Array.isArray(data.data) ? data.data : [];
+
+      const newTags = newPosts.flatMap((post: Post) => 
+        post.attributes.tags.map((tag: { name: string }) => tag.name)
+      );
+      setTags(prevTags => Array.from(new Set([...prevTags, ...newTags])));
+  
 
       setPosts(prevPosts => [...prevPosts, ...newPosts]);
       setPage(prevPage => prevPage + 1);
@@ -112,7 +121,7 @@ const Contenidolist: React.FC = () => {
               <label><Spainflag /></label>
             </div>
 
-            <div className="flex flex-col max-w-[280px] text-nowrap">
+            <div className="flex flex-col max-w-[280px] truncate">
               <span className="text-sm text-softgray">Título</span>
               <label title={post.attributes.title} className="text-lg truncate">{post.attributes.title}</label>
             </div>
@@ -120,7 +129,7 @@ const Contenidolist: React.FC = () => {
             <div className="flex flex-col">
               <span className="text-sm text-softgray">Proyecto</span>
               <label className="text-lg">
-              {post.attributes.project_id?.data ? (
+                {post.attributes.project_id?.data ? (
                   post.attributes.project_id.data.attributes.name
                 ) : (
                   'No especificado'
@@ -129,11 +138,9 @@ const Contenidolist: React.FC = () => {
             </div>
 
             <div className="flex flex-col">
-              <span className="text-sm text-softgray">Lorem Impsum</span>
+              <span className="text-sm text-softgray">Lorem Ipsum</span>
               <label className="text-lg">
-                
-                  Lorem I
-                
+                Lorem I
               </label>
             </div>
 
@@ -156,7 +163,7 @@ const Contenidolist: React.FC = () => {
               ))}
             </div>
 
-            <div className="flex">
+            <div className="flex gap-4 mt-4">
               <div className="bg-Paper rounded-2xl p-4 max-h-[315px] min-h-[315px] overflow-x-scroll hide-scrollbar">
                 <Content content={post.attributes.content} />
               </div>
@@ -169,15 +176,15 @@ const Contenidolist: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex flex-row gap-4">
-              {['Etiqueta 1', 'Etiqueta 2', 'Etiqueta 3', 'Etiqueta 4', 'Etiqueta 5'].map((tag, index) => (
+            <div className="flex flex-row flex-wrap gap-4 mt-4">
+              {tags.slice(0, 8).map((tag, index) => ( //LIMITADO A 8 ETIQUETAS
                 <div key={index} className="bg-Ocean rounded-2xl text-Clouds font-medium py-2 px-3">
                   {tag}
                 </div>
               ))}
             </div>
 
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-row gap-4 mt-4">
               <div className="flex flex-row gap-4 py-2 px-3 bg-PrimaryF rounded-lg">
                 <div className="flex flex-row gap-2 text-Clouds">
                   <Image height={98} width={156} src={Video.image} alt={Video.title} className="rounded-md" />
@@ -185,9 +192,9 @@ const Contenidolist: React.FC = () => {
                     <span>{Video.title}</span>
                     <span>{Video.Fecha}</span>
                     {estado ? (
-                      <span className="bg-Clouds rounded-2xl py-[6px] px-[10px] text-PrimaryF font-semibold font text-xs">Publicado</span>
+                      <span className="bg-Clouds rounded-2xl py-[6px] px-[10px] text-PrimaryF font-semibold text-xs">Publicado</span>
                     ) : (
-                      <span className="bg-Clouds rounded-2xl py-[6px] px-[10px] text-red-700 font-semibold font text-xs">No publicado</span>
+                      <span className="bg-Clouds rounded-2xl py-[6px] px-[10px] text-red-700 font-semibold text-xs">No publicado</span>
                     )}
                   </div>
                 </div>
@@ -202,5 +209,6 @@ const Contenidolist: React.FC = () => {
     </div>
   );
 };
+
 
 export default Contenidolist;

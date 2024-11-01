@@ -9,7 +9,7 @@ import Tagadd from './Tagadd';
 import ImageuploadCreator from './ImageuploadCreator';
 import Tiptap from './Tiptap';
 import TituloComponent from './Titulocomponent';
-import { createPostWithProject, uploadImage } from '../apiServices';
+import { createPostWithProject, uploadImage,updatePost } from '../apiServices';
 import apiFetch from '../apiServices';
 
 // Define la estructura de cada proyecto
@@ -33,6 +33,9 @@ const CreatorForm: React.FC = () => {
   const [activecard, setActivecard] = useState<number | null>(null);
   const [imageId, setImageId] = useState<number | null>(null);
   const [isImageUploaded, setIsImageUploaded] = useState(false); // Controla si la imagen ha sido subida
+  const [isDraftSaved, setIsDraftSaved] = useState(false) //Verifica si el Borrador ha sido guardado
+  const [postId, setPostId] = useState<number | null>(null); // ALMACENAR LA ID DE UN POST
+
 
   const cardItems = [
     { image: Sourcecardyt, text: 'Video' },
@@ -66,45 +69,63 @@ const CreatorForm: React.FC = () => {
   };
 
   const saveDraft = async () => {
-    if (!imageId) {
-      try {
-        const file = document.getElementById("image-upload") as HTMLInputElement;
-        const fileToUpload = file?.files ? file.files[0] : null;
-        if (fileToUpload) {
-          const id = await uploadImage(fileToUpload);
-          setImageId(id);
-          setIsImageUploaded(true);
-          alert('Imagen subida y guardada como borrador con éxito');
-        } else {
-          alert('Por favor, selecciona una imagen antes de guardar el borrador.');
-        }
-      } catch (error) {
-        console.error('Error al subir la imagen:', error);
-        alert('Hubo un error al subir la imagen');
+    const file = document.getElementById("image-upload") as HTMLInputElement;
+    const fileToUpload = file?.files ? file.files[0] : null;
+  
+    if (!fileToUpload) {
+      alert('Por favor, selecciona una imagen antes de guardar el borrador.');
+      return;
+    }
+  
+    try {
+      if (!isDraftSaved) {
+        const id = await uploadImage(fileToUpload);
+        setImageId(id);
+        setIsImageUploaded(true);
+        setIsDraftSaved(true);
+        alert('Imagen subida y guardada como borrador con éxito');
+      } else {
+        const updatedImageId = await uploadImage(fileToUpload); // Actualiza el ID de la imagen
+        setImageId(updatedImageId);
+        alert('Borrador actualizado con la nueva imagen');
       }
+    } catch (error) {
+      console.error('Error al subir la imagen:', error);
+      alert('Hubo un error al subir la imagen');
     }
   };
+  
+
+  
 
   const createPost = async () => {
     if (!isImageUploaded) {
       alert('Por favor, sube una imagen y guarda el borrador antes de crear el video.');
       return;
     }
-
+  
     if (!selectedProject) {
       alert('Por favor, selecciona un proyecto');
       return;
     }
-
+  
     try {
-      const response = await createPostWithProject(title, content, selectedProject, imageId!);
-      console.log('Post creado con éxito:', response);
-      alert('¡El post se ha creado con éxito!');
+      if (postId && typeof postId === 'number') {  // Confirma que postId es un número válido
+        await updatePost(postId, title, content, imageId!);
+        alert('¡El post se ha actualizado con éxito!');
+      } else {
+        const newPostResponse = await createPostWithProject(title, content, selectedProject, imageId!);
+        setPostId(newPostResponse.data.id); // Guarda el postId obtenido
+        alert('¡El post se ha creado con éxito!');
+      }
     } catch (error) {
-      console.error('Error al crear el post:', error);
-      alert('Hubo un error al crear el post');
+      console.error('Error al crear o actualizar el post:', error);
+      alert('Hubo un error al crear o actualizar el post');
     }
   };
+
+
+
 
   return (
     <>
@@ -226,7 +247,7 @@ const CreatorForm: React.FC = () => {
           className="bg-PrimaryF rounded-xl py-3 px-0 text-Clouds font-semibold text-xl hover:bg-Ocean active:bg-[#5458FF]"
           onClick={saveDraft}
         >
-          Guardar borrador
+          {isDraftSaved ? 'Actualizar borrador' : 'Guardar borrador'}
         </button>
 
         
