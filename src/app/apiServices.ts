@@ -63,7 +63,7 @@ export const uploadImage = async (imageFile: File) => {
 };
 
 // Función para crear un post con un proyecto asociado
-export const createPostWithProject = async (title: string, content: string, projectId: number, featuredImageId: number) => {
+export const createPostWithProject = async (title: string, content: string, projectId: number, featuredImageId: number,tags: string[]) => {
   return await apiFetch('/posts', {
     method: 'POST',
     body: JSON.stringify({
@@ -72,6 +72,8 @@ export const createPostWithProject = async (title: string, content: string, proj
         content,
         project_id: projectId,
         featuredImage: featuredImageId,
+        tags: tags.map(tag => ({ name: tag })),
+        
       },
     }),
   });
@@ -80,7 +82,7 @@ export const createPostWithProject = async (title: string, content: string, proj
 };
 
 // Función para actualizar un post existente
-export const updatePost = async (postId: number, title: string, content: string, featuredImageId: number) => {
+export const updatePost = async (postId: number, title: string, content: string, featuredImageId: number, tags: string[]) => {
   return await apiFetch(`/posts/${postId}`, {
     method: 'PUT',
     body: JSON.stringify({

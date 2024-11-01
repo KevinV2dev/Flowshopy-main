@@ -2,10 +2,14 @@
 import React, {useState} from 'react';
 import IconTag from '../assets/Icons/Icontag';
 
+interface TagsaddProps {
+    tags: string[];
+    setTags: React.Dispatch<React.SetStateAction<string[]>>;
+  }
 
-const Tagsadd: React.FC = () => {
 
-    const [tags,setTags] = useState<string[]>([]); 
+  const Tagsadd: React.FC<TagsaddProps> = ({ tags, setTags }) => {
+
     const [inputValue, setinputvalue] = useState<string>('');
 
     //FUNCION PARA MANEJAR EL EVENTO CUANDO SE PRESIONA UNA TECLA (ENTER)

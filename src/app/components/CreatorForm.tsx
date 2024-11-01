@@ -35,6 +35,7 @@ const CreatorForm: React.FC = () => {
   const [isImageUploaded, setIsImageUploaded] = useState(false); // Controla si la imagen ha sido subida
   const [isDraftSaved, setIsDraftSaved] = useState(false) //Verifica si el Borrador ha sido guardado
   const [postId, setPostId] = useState<number | null>(null); // ALMACENAR LA ID DE UN POST
+  const [tags, setTags] = useState<string[]>([]);
 
 
   const cardItems = [
@@ -111,10 +112,10 @@ const CreatorForm: React.FC = () => {
   
     try {
       if (postId && typeof postId === 'number') {  // Confirma que postId es un número válido
-        await updatePost(postId, title, content, imageId!);
+        await updatePost(postId, title, content, imageId!,tags);
         alert('¡El post se ha actualizado con éxito!');
       } else {
-        const newPostResponse = await createPostWithProject(title, content, selectedProject, imageId!);
+        const newPostResponse = await createPostWithProject(title, content, selectedProject, imageId!,tags);
         setPostId(newPostResponse.data.id); // Guarda el postId obtenido
         alert('¡El post se ha creado con éxito!');
       }
@@ -214,7 +215,7 @@ const CreatorForm: React.FC = () => {
         <span className="font-semibold text-xl">
           Añade unas cuantas <span className="text-PrimaryF">etiquetas</span> a tu video:
         </span>
-        <Tagadd />
+        <Tagadd tags={tags} setTags={setTags} />
       </div>
 
       <div className="p-4 bg-Clouds rounded-2xl flex flex-col">
