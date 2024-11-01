@@ -1,5 +1,6 @@
 const API_BASE_URL = 'https://strapi-admin-dev.flowshopy.com.br/api';
 
+
 const apiFetch = async (endpoint: string, options: RequestInit = {}) => {
   const url = `${API_BASE_URL}${endpoint}`;
   const defaultOptions = {
@@ -24,6 +25,24 @@ if (!response.ok) {
     console.error('Error al hacer la solicitud API:', error.message);
     throw error;
   }
+};
+
+// Definir el tipo específico de categoría que queremos obtener
+interface CategoryData {
+  id: number;
+  attributes: {
+    name: string;
+  };
+}
+
+// Nueva función para obtener categorías directamente desde /categories
+export const fetchCategories = async (): Promise<{ data: CategoryData[] }> => {
+  console.log(`Obteniendo todas las categorías`);
+  
+  const response = await apiFetch(`/categories`);
+  console.log("Respuesta completa de la API (categorías):", response); // Verificar que se obtienen las categorías
+  
+  return response;
 };
 
 // Función para obtener todos los proyectos
@@ -63,7 +82,7 @@ export const uploadImage = async (imageFile: File) => {
 };
 
 // Función para crear un post con un proyecto asociado
-export const createPostWithProject = async (title: string, content: string, projectId: number, featuredImageId: number,tags: string[]) => {
+export const createPostWithProject = async (title: string, content: string, projectId: number, featuredImageId: number,tags: string[],categoryId: number) => {
   return await apiFetch('/posts', {
     method: 'POST',
     body: JSON.stringify({
@@ -73,6 +92,7 @@ export const createPostWithProject = async (title: string, content: string, proj
         project_id: projectId,
         featuredImage: featuredImageId,
         tags: tags.map(tag => ({ name: tag })),
+        categories: [{ id: categoryId }]
         
       },
     }),

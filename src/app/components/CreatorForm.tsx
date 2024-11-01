@@ -9,8 +9,9 @@ import Tagadd from './Tagadd';
 import ImageuploadCreator from './ImageuploadCreator';
 import Tiptap from './Tiptap';
 import TituloComponent from './Titulocomponent';
-import { createPostWithProject, uploadImage,updatePost } from '../apiServices';
+import { createPostWithProject, uploadImage, updatePost } from '../apiServices';
 import apiFetch from '../apiServices';
+import CategorySearch from './Inputcategory';
 
 // Define la estructura de cada proyecto
 interface Project {
@@ -32,11 +33,14 @@ const CreatorForm: React.FC = () => {
   const [content, setContent] = useState('');
   const [activecard, setActivecard] = useState<number | null>(null);
   const [imageId, setImageId] = useState<number | null>(null);
-  const [isImageUploaded, setIsImageUploaded] = useState(false); // Controla si la imagen ha sido subida
-  const [isDraftSaved, setIsDraftSaved] = useState(false) //Verifica si el Borrador ha sido guardado
-  const [postId, setPostId] = useState<number | null>(null); // ALMACENAR LA ID DE UN POST
+  const [isImageUploaded, setIsImageUploaded] = useState(false);
+  const [isDraftSaved, setIsDraftSaved] = useState(false);
+  const [postId, setPostId] = useState<number | null>(null);
   const [tags, setTags] = useState<string[]>([]);
-
+  const [selectedCategory, setSelectedCategory] = useState<{ id: number | null; name: string }>({
+    id: null,
+    name: '',
+  });
 
   const cardItems = [
     { image: Sourcecardyt, text: 'Video' },
@@ -65,19 +69,19 @@ const CreatorForm: React.FC = () => {
   }, [searchValue, projects]);
 
   const handleImageUpload = (file: File) => {
-    setIsImageUploaded(false); // Reinicia el estado de imagen subida hasta que se haga clic en "Guardar borrador"
+    setIsImageUploaded(false);
     setImageId(null);
   };
 
   const saveDraft = async () => {
     const file = document.getElementById("image-upload") as HTMLInputElement;
     const fileToUpload = file?.files ? file.files[0] : null;
-  
+
     if (!fileToUpload) {
       alert('Por favor, selecciona una imagen antes de guardar el borrador.');
       return;
     }
-  
+
     try {
       if (!isDraftSaved) {
         const id = await uploadImage(fileToUpload);
@@ -86,7 +90,7 @@ const CreatorForm: React.FC = () => {
         setIsDraftSaved(true);
         alert('Imagen subida y guardada como borrador con éxito');
       } else {
-        const updatedImageId = await uploadImage(fileToUpload); // Actualiza el ID de la imagen
+        const updatedImageId = await uploadImage(fileToUpload);
         setImageId(updatedImageId);
         alert('Borrador actualizado con la nueva imagen');
       }
@@ -95,38 +99,43 @@ const CreatorForm: React.FC = () => {
       alert('Hubo un error al subir la imagen');
     }
   };
-  
-
-  
 
   const createPost = async () => {
     if (!isImageUploaded) {
       alert('Por favor, sube una imagen y guarda el borrador antes de crear el video.');
       return;
     }
-  
+
     if (!selectedProject) {
       alert('Por favor, selecciona un proyecto');
       return;
     }
-  
+
     try {
-      if (postId && typeof postId === 'number') {  // Confirma que postId es un número válido
-        await updatePost(postId, title, content, imageId!,tags);
+      if (postId && typeof postId === 'number') {
+        await updatePost(postId, title, content, imageId!, tags);
         alert('¡El post se ha actualizado con éxito!');
       } else {
-        const newPostResponse = await createPostWithProject(title, content, selectedProject, imageId!,tags);
-        setPostId(newPostResponse.data.id); // Guarda el postId obtenido
-        alert('¡El post se ha creado con éxito!');
+        if (selectedCategory.id !== null) {
+          const newPostResponse = await createPostWithProject(
+            title,
+            content,
+            selectedProject,
+            imageId!,
+            tags,
+            selectedCategory.id // Envío del ID de la categoría seleccionada
+          );
+          setPostId(newPostResponse.data.id);
+          alert('¡El post se ha creado con éxito!');
+        } else {
+          alert('Por favor, selecciona una categoría antes de crear el post.');
+        }
       }
     } catch (error) {
       console.error('Error al crear o actualizar el post:', error);
       alert('Hubo un error al crear o actualizar el post');
     }
   };
-
-
-
 
   return (
     <>
@@ -198,17 +207,20 @@ const CreatorForm: React.FC = () => {
 
       <div className="bg-Clouds flex flex-col p-4 rounded-2xl gap-2">
         <span className="text-DarkOcean text-xl font-semibold p-2">
-          Elige una <span className="text-PrimaryF">playlist</span> para tu video:
+          Elige una <span className="text-PrimaryF">Categoria</span> para tu Lorem:
         </span>
-        <InputSearch
-          placeholder="Selecciona uno o varios idiomas"
-          type="search"
-          icon={<Iconsearch />}
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          results={[]} 
-          onResultSelect={(id) => console.log('Seleccionar playlist con id:', id)}
+        <CategorySearch
+          placeholder="Buscar categoría"
+          value={selectedCategory.name}
+          onChange={(e) => setSelectedCategory({ ...selectedCategory, name: e.target.value })}
+          onCategorySelect={(id, name) => setSelectedCategory({ id, name })}
         />
+
+        {selectedCategory.id && (
+          <p className="mt-4">
+            Categoría seleccionada: <strong>{selectedCategory.name}</strong>
+          </p>
+        )}
       </div>
 
       <div className="bg-Clouds rounded-2xl p-4 gap-2">
@@ -230,8 +242,7 @@ const CreatorForm: React.FC = () => {
       </div>
 
       <div className="flex flex-col w-full gap-2">
-
-      <button
+        <button
           type="submit"
           onClick={createPost}
           disabled={!isImageUploaded}
@@ -242,7 +253,6 @@ const CreatorForm: React.FC = () => {
           ¡Crear video!
         </button>
 
-
         <button
           type="button"
           className="bg-PrimaryF rounded-xl py-3 px-0 text-Clouds font-semibold text-xl hover:bg-Ocean active:bg-[#5458FF]"
@@ -251,7 +261,6 @@ const CreatorForm: React.FC = () => {
           {isDraftSaved ? 'Actualizar borrador' : 'Guardar borrador'}
         </button>
 
-        
         <button
           type="button"
           className="bg-Selector rounded-xl py-3 px-0 text-Clouds font-semibold text-xl hover:bg-Selector-Hovered active:bg-Selector-PRESSED mb-[128px]"
