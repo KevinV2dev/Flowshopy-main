@@ -36,7 +36,7 @@ interface Post {
 
 
 
-const Producto: React.FC<{projectId: number}> = ({ projectId }) => {
+const Producto: React.FC<{projectId?: number}> = ({ projectId }) => {
 
   const [products, setProducts] = useState<ProductAttributes[]>([]);
 
