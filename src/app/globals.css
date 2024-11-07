@@ -117,6 +117,14 @@ line-height: normal;
   
 }
 
+.label {
+  @apply  text-softgray-light font-medium text-sm opacity-80;
+}
+
+.title {
+  @apply  text-DarkOcean font-semibold text-lg;
+}
+
 
 
 

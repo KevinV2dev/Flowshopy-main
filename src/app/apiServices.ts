@@ -53,6 +53,7 @@ export const fetchProjects = async () => {
 // Función para obtener posts asociados a un proyecto específico
 export const fetchPostsByProject = async (projectId: number) => {
   return await apiFetch(`/posts?filters[project_id][id]=${projectId}&populate=*`);
+  
 };
 
 // Función para subir imagen a Strapi
@@ -92,7 +93,8 @@ export const createPostWithProject = async (title: string, content: string, proj
         project_id: projectId,
         featuredImage: featuredImageId,
         tags: tags.map(tag => ({ name: tag })),
-        categories: [{ id: categoryId }]
+        categories: [{ id: categoryId }],
+        excerpt: "Por favor, recuerden cambiar esto a algo dinámico", // Agregar esta línea
         
       },
     }),
@@ -114,6 +116,44 @@ export const updatePost = async (postId: number, title: string, content: string,
     }),
   });
 };
+
+
+// Nueva función para obtener todos los productos asociados a los proyectos
+export const fetchAllProductsFromProjects = async () => {
+  try {
+    // Llamada a la API para obtener todos los proyectos con sus productos asociados
+    const response = await apiFetch(`/projects?populate[product_id][populate]=niche_id`);
+
+    const projectsData = response.data;
+
+
+    if (!projectsData || projectsData.length === 0) {
+      console.warn('No se encontraron proyectos en la API.');
+      return [];
+    }
+
+   // Extraer productos y nichos de los proyectos
+   const products = projectsData.map((project: any) => {
+    const product = project.attributes.product_id?.data?.attributes || null;
+    const niche = product?.niche_id?.data?.attributes.name || null; // Extrae los datos del niche si está presente
+
+    return {
+      ...product,
+      niche, // Agrega el nicho como parte del objeto de producto
+    };
+  });
+
+  return products; // Devuelve un array de productos con sus nichos
+} catch (error) {
+  console.error('Error al obtener productos y nichos de los proyectos:', error);
+  throw error;
+}
+};
+
+
+
+
+
 
 
 

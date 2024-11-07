@@ -17,6 +17,7 @@ import CategorySearch from './Inputcategory';
 interface Project {
   id: number;
   attributes: {
+    product_id: any;
     name: string;
     language: string;
     createdAt: string;
@@ -110,6 +111,12 @@ const CreatorForm: React.FC = () => {
       alert('Por favor, selecciona un proyecto');
       return;
     }
+
+    const project = projects.find((p) => p.id === selectedProject);
+  if (!project || !project.attributes.product_id) {
+    alert('El proyecto seleccionado no tiene un producto relacionado. Por favor, selecciona otro proyecto.');
+    return;
+  }
 
     try {
       if (postId && typeof postId === 'number') {
