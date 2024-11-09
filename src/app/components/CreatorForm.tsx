@@ -9,7 +9,7 @@ import Tagadd from './Tagadd';
 import ImageuploadCreator from './ImageuploadCreator';
 import Tiptap from './Tiptap';
 import TituloComponent from './Titulocomponent';
-import { createPostWithProject, uploadImage, updatePost } from '../apiServices';
+import { createPostWithProject, uploadImage, updatePost, fetchProjects } from '../apiServices';
 import apiFetch from '../apiServices';
 import CategorySearch from './Inputcategory';
 
@@ -21,6 +21,7 @@ interface Project {
     name: string;
     language: string;
     createdAt: string;
+    uuid:string;
   };
 }
 
@@ -49,17 +50,23 @@ const CreatorForm: React.FC = () => {
   ];
 
   useEffect(() => {
-    const fetchProjects = async () => {
+    const fetchProjectsData = async () => {
       try {
-        const data = await apiFetch('/projects');
+        const data = await fetchProjects(); // Llama a la función actualizada de `apiServices`
         setProjects(data.data);
         setFilteredProjects(data.data);
+  
+        // Agregar log para verificar que `product_id` esté presente
+        console.log('Proyectos obtenidos con `product_id`:', data.data);
+  
       } catch (error) {
         console.error('Error al obtener proyectos:', error);
       }
     };
-    fetchProjects();
+    fetchProjectsData();
   }, []);
+
+  
 
   useEffect(() => {
     setFilteredProjects(
@@ -77,27 +84,76 @@ const CreatorForm: React.FC = () => {
   const saveDraft = async () => {
     const file = document.getElementById("image-upload") as HTMLInputElement;
     const fileToUpload = file?.files ? file.files[0] : null;
-
+  
     if (!fileToUpload) {
       alert('Por favor, selecciona una imagen antes de guardar el borrador.');
       return;
     }
-
+  
+    if (!selectedProject) {
+      alert('Por favor, selecciona un proyecto antes de guardar el borrador.');
+      return;
+    }
+  
+    const project = projects.find((p) => p.id === selectedProject);
+  
+    if (!project || !project.attributes.product_id?.data) {
+      alert('El proyecto seleccionado no tiene un producto relacionado. Por favor, selecciona otro proyecto.');
+      return;
+    }
+  
     try {
-      if (!isDraftSaved) {
-        const id = await uploadImage(fileToUpload);
-        setImageId(id);
+      let uploadedImageId = imageId;
+  
+      if (!isImageUploaded) {
+        uploadedImageId = await uploadImage(fileToUpload);
+        setImageId(uploadedImageId);
         setIsImageUploaded(true);
-        setIsDraftSaved(true);
-        alert('Imagen subida y guardada como borrador con éxito');
-      } else {
-        const updatedImageId = await uploadImage(fileToUpload);
-        setImageId(updatedImageId);
-        alert('Borrador actualizado con la nueva imagen');
+        console.log('Imagen subida y guardada como borrador');
+      }
+  
+      if (uploadedImageId) {
+        if (!postId && selectedCategory.id !== null) {
+          const newPostResponse = await createPostWithProject(
+            title,
+            content,
+            selectedProject,
+            uploadedImageId,
+            tags,
+            selectedCategory.id
+          );
+          setPostId(newPostResponse.data.id);
+          const postUUID = newPostResponse.data.attributes.uuid; // Extrae el UUID del post aquí
+          console.log('UUID del post creado:', postUUID);
+          setIsDraftSaved(true);
+          alert('Borrador guardado exitosamente con el post creado.');
+        } else {
+          alert('Por favor, selecciona una categoría antes de guardar el borrador.');
+        }
       }
     } catch (error) {
-      console.error('Error al subir la imagen:', error);
-      alert('Hubo un error al subir la imagen');
+      console.error('Error al guardar borrador:', error);
+      alert('Hubo un error al guardar el borrador');
+    }
+  };
+  const sendUUIDToAnotherAPI = async (uuid: string) => {
+    try {
+      const response = await fetch('https://webhooks-dev.flowshopy.com.br/webhook/orchestrator/start-create-video', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ uuid }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Error al enviar el UUID a la otra API');
+      }
+      
+      alert('UUID enviado exitosamente a la otra API');
+    } catch (error) {
+      console.error('Error al enviar UUID a la otra API:', error);
+      alert('Hubo un error al enviar el UUID');
     }
   };
 
@@ -106,21 +162,26 @@ const CreatorForm: React.FC = () => {
       alert('Por favor, sube una imagen y guarda el borrador antes de crear el video.');
       return;
     }
-
+  
     if (!selectedProject) {
       alert('Por favor, selecciona un proyecto');
       return;
     }
-
+  
     const project = projects.find((p) => p.id === selectedProject);
-  if (!project || !project.attributes.product_id) {
-    alert('El proyecto seleccionado no tiene un producto relacionado. Por favor, selecciona otro proyecto.');
-    return;
-  }
-
+  
+    if (!project || !project.attributes.product_id?.data) {
+      alert('El proyecto seleccionado no tiene un producto relacionado. Por favor, selecciona otro proyecto.');
+      return;
+    }
+  
     try {
+      let postUUID = null;
+  
+      // Crear o actualizar el post y capturar el UUID del post
       if (postId && typeof postId === 'number') {
-        await updatePost(postId, title, content, imageId!, tags);
+        const updatedPostResponse = await updatePost(postId, title, content, imageId!, tags);
+        postUUID = updatedPostResponse.data.attributes.uuid; // Obtén el UUID del post actualizado
         alert('¡El post se ha actualizado con éxito!');
       } else {
         if (selectedCategory.id !== null) {
@@ -130,19 +191,32 @@ const CreatorForm: React.FC = () => {
             selectedProject,
             imageId!,
             tags,
-            selectedCategory.id // Envío del ID de la categoría seleccionada
+            selectedCategory.id
           );
           setPostId(newPostResponse.data.id);
+          postUUID = newPostResponse.data.attributes.uuid; // Obtén el UUID del nuevo post creado
           alert('¡El post se ha creado con éxito!');
         } else {
           alert('Por favor, selecciona una categoría antes de crear el post.');
+          return;
         }
+      }
+  
+      // Enviar el UUID del post a la otra API
+      if (postUUID) {
+        await sendUUIDToAnotherAPI(postUUID);
+      } else {
+        alert('No se encontró el UUID para el post creado.');
       }
     } catch (error) {
       console.error('Error al crear o actualizar el post:', error);
       alert('Hubo un error al crear o actualizar el post');
     }
   };
+
+  
+
+  
 
   return (
     <>

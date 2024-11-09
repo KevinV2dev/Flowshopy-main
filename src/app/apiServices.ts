@@ -6,7 +6,7 @@ const apiFetch = async (endpoint: string, options: RequestInit = {}) => {
   const defaultOptions = {
     method: 'GET',
     headers: {
-      Authorization: 'Bearer 5e83fc8957ff280e41f5046aee2df3c9dd4d9f6eb5e2c4f28ffc211d1c1490c60d8d605901692f3a0f370f89f05db19581ed4a13f65abcdfbac6481e2515dbb2885e47601a90af5a387af5ed5dec572c85400f63ffe86b8d5947d6bd2ec6a0ceefe6e41225f5e850a61a4376e739b5957a2931bee16c9ac354e69864b7136e16',
+      Authorization: 'Bearer  5e83fc8957ff280e41f5046aee2df3c9dd4d9f6eb5e2c4f28ffc211d1c1490c60d8d605901692f3a0f370f89f05db19581ed4a13f65abcdfbac6481e2515dbb2885e47601a90af5a387af5ed5dec572c85400f63ffe86b8d5947d6bd2ec6a0ceefe6e41225f5e850a61a4376e739b5957a2931bee16c9ac354e69864b7136e16',
       'Content-Type': 'application/json',
     },
     ...options,
@@ -47,7 +47,8 @@ export const fetchCategories = async (): Promise<{ data: CategoryData[] }> => {
 
 // Función para obtener todos los proyectos
 export const fetchProjects = async () => {
-  return await apiFetch('/projects');
+  // Utilizar `populate[product_id]=*` para obtener toda la información de `product_id`
+  return await apiFetch('/projects?populate[product_id]=*');
 };
 
 // Función para obtener posts asociados a un proyecto específico
