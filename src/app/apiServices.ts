@@ -122,33 +122,42 @@ export const updatePost = async (postId: number, title: string, content: string,
 // Nueva función para obtener todos los productos asociados a los proyectos
 export const fetchAllProductsFromProjects = async () => {
   try {
-    // Llamada a la API para obtener todos los proyectos con sus productos asociados
     const response = await apiFetch(`/projects?populate[product_id][populate]=niche_id`);
-
     const projectsData = response.data;
-
 
     if (!projectsData || projectsData.length === 0) {
       console.warn('No se encontraron proyectos en la API.');
       return [];
     }
 
-   // Extraer productos y nichos de los proyectos
-   const products = projectsData.map((project: any) => {
-    const product = project.attributes.product_id?.data?.attributes || null;
-    const niche = product?.niche_id?.data?.attributes.name || null; // Extrae los datos del niche si está presente
+    // Mapear los productos con sus IDs y atributos
+    const products = projectsData
+      .map((project: any) => {
+        const productData = project.attributes.product_id?.data;
+        if (!productData) return null; // Filtra proyectos sin producto
 
-    return {
-      ...product,
-      niche, // Agrega el nicho como parte del objeto de producto
-    };
-  });
+        const productAttributes = productData.attributes;
+        const niche = productAttributes.niche_id?.data?.attributes.name || 'Sin Nicho Asignado';
 
-  return products; // Devuelve un array de productos con sus nichos
-} catch (error) {
-  console.error('Error al obtener productos y nichos de los proyectos:', error);
-  throw error;
-}
+        return {
+          id: productData.id, // Incluimos el ID del producto
+          name: productAttributes.name,
+          url_sale_page: productAttributes.url_sale_page,
+          url_checkout: productAttributes.url_checkout,
+          url_promote: productAttributes.url_promote,
+          cta_header: productAttributes.cta_header,
+          cta_footer: productAttributes.cta_footer,
+          createdAt: productAttributes.createdAt,
+          niche, // Incluimos el nicho
+        };
+      })
+      .filter(Boolean); // Eliminar productos nulos
+
+    return products;
+  } catch (error) {
+    console.error('Error al obtener productos y nichos de los proyectos:', error);
+    throw error;
+  }
 };
 
 
