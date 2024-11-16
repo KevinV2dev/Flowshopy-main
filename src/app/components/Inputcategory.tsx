@@ -8,7 +8,7 @@ interface CategorySearchProps {
   icon?: React.ReactNode;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onCategorySelect: (id: number, name: string) => void; // Propiedad para manejar selección
+  onCategorySelect: (id: number, name: string) => void;
 }
 
 interface Category {
@@ -26,33 +26,45 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
 }) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [showResults, setShowResults] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // Cargar todas las categorías
   useEffect(() => {
     const fetchData = async () => {
       try {
         const categoryData = await fetchCategories();
-        const formattedCategories: Category[] = categoryData.data.map((category) => ({
-          id: category.id,
-          name: category.attributes.name,
-        }));
-        setCategories(formattedCategories);
-        console.log("Categorías cargadas:", formattedCategories); // Verificar datos cargados
+        setCategories(
+          categoryData.data.map((category) => ({
+            id: category.id,
+            name: category.attributes.name,
+          }))
+        );
       } catch (error) {
         console.error('Error al obtener categorías:', error);
+        setError('No se pudieron cargar las categorías. Intenta nuevamente.');
       }
     };
 
     fetchData();
   }, []);
 
-  // Mostrar resultados al escribir
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!(event.target as HTMLElement).closest('.category-search-container')) {
+        setShowResults(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e);
     setShowResults(true);
   };
 
-  // Seleccionar una categoría y cerrar el dropdown
   const handleResultClick = (id: number, name: string) => {
     onCategorySelect(id, name);
     setShowResults(false);
@@ -70,7 +82,21 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
           onChange={handleInputChange}
           value={value}
         />
+        {value && (
+          <button
+            type="button"
+            className="absolute right-4 text-gray-500 hover:text-gray-700"
+            onClick={() => {
+              onChange({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
+              setShowResults(false);
+            }}
+          >
+            &#10005;
+          </button>
+        )}
       </div>
+
+      {error && <p className="text-sm text-red-500 mt-2">{error}</p>}
 
       {showResults && categories.length > 0 && (
         <div className="absolute z-10 bg-white shadow-md rounded-lg p-4 mt-2 max-h-60 overflow-y-auto w-full border border-gray-200">

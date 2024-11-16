@@ -215,9 +215,6 @@ const CreatorForm: React.FC = () => {
   };
 
   
-
-  
-
   return (
     <>
       <div className="rounded-2xl bg-Clouds p-4 ">
@@ -260,26 +257,30 @@ const CreatorForm: React.FC = () => {
           Enlaza tu post a un <span className="text-PrimaryF">Proyecto:</span>{' '}
         </span>
         <div className="w-full relative">
-          <InputSearch
-            placeholder="Buscar proyectos"
-            type="search"
-            icon={<Iconsearch />}
-            value={selectedProjectName || searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            results={filteredProjects}
-            onResultSelect={(id, name) => {
-              setSelectedProject(id);
-              setSelectedProjectName(name);
-              setSearchValue('');
-            }}
-          />
+        <InputSearch
+        placeholder="Buscar proyectos"
+        type="search"
+        icon={<Iconsearch />}
+        value={selectedProjectName || searchValue} // El valor controlado
+        onChange={(newValue) => {
+          setSearchValue(newValue); // Actualiza el estado del padre
+          if (newValue === '') {
+            setSelectedProjectName(''); // Limpia el proyecto seleccionado
+            setSelectedProject(null);
+          }
+        }}
+        results={filteredProjects.filter((project) =>
+          project.attributes.name.toLowerCase().includes(searchValue.toLowerCase())
+        )}
+        onResultSelect={(id, name) => {
+          setSelectedProject(id);
+          setSelectedProjectName(name);
+          setSearchValue(''); // Limpia el campo después de seleccionar
+        }}
+      />
         </div>
 
-        {selectedProject && (
-          <div className="mt-4">
-            <p>Proyecto seleccionado: {projects.find((p) => p.id === selectedProject)?.attributes?.name || 'No encontrado'}</p>
-          </div>
-        )}
+        
       </div>
 
       <div className="bg-Clouds flex flex-col p-4 rounded-2xl gap-2">
@@ -288,7 +289,7 @@ const CreatorForm: React.FC = () => {
 
       <div className="bg-Clouds flex flex-col p-4 rounded-2xl gap-2">
         <span className="text-DarkOcean text-xl font-semibold p-2">
-          Elige una <span className="text-PrimaryF">Categoria</span> para tu Lorem:
+          Elige una <span className="text-PrimaryF">Categoria</span> para tu Proyecto:
         </span>
         <CategorySearch
           placeholder="Buscar categoría"
@@ -296,12 +297,6 @@ const CreatorForm: React.FC = () => {
           onChange={(e) => setSelectedCategory({ ...selectedCategory, name: e.target.value })}
           onCategorySelect={(id, name) => setSelectedCategory({ id, name })}
         />
-
-        {selectedCategory.id && (
-          <p className="mt-4">
-            Categoría seleccionada: <strong>{selectedCategory.name}</strong>
-          </p>
-        )}
       </div>
 
       <div className="bg-Clouds rounded-2xl p-4 gap-2">
