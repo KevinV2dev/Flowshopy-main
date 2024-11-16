@@ -46,7 +46,7 @@ const Crearproyecto: React.FC<Props> = ({ onCancelar }) => {
               type='search'
               icon={<Iconsearch />}
               value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)} results={[]} onResultSelect={function (id: number, name: string): void {
+              onChange={(newValue) => setSearchValue2(newValue)} results={[]} onResultSelect={function (id: number, name: string): void {
                 throw new Error('Function not implemented.');
               } }                  />
                 <div className='flex gap-4 '>
@@ -68,7 +68,7 @@ const Crearproyecto: React.FC<Props> = ({ onCancelar }) => {
               type='search'
               icon={<IconTag />}
               value={searchValue2}
-              onChange={(e) => setSearchValue2(e.target.value)} results={[]} onResultSelect={function (id: number, name: string): void {
+              onChange={(newValue) => setSearchValue2(newValue)} results={[]} onResultSelect={function (id: number, name: string): void {
                 throw new Error('Funcion no implementada');
               } }                  />
 
