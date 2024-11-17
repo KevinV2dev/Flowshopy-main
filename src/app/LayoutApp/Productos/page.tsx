@@ -23,9 +23,18 @@ const Productos: React.FC = () => {
     </div>
 
     <div className='grow'>
-        <Producto/>
+    {selectedAction === 'ver' ? (
+            <Producto/>  // Mostrar proyectos por defecto
+          ) : selectedAction === 'crear' ? (
+            <Crearproducto onCancelar={() => setSelectedAction('ver')} />  
+          ) : selectedAction === 'editar' ? (
+            <Producto />  // Mostrar editar proyecto
+          ) : (
+            <div>Componente para eliminar proyectos</div>  // Aquí podrías poner tu componente para eliminar
+          )}
     </div>
 
+    {selectedAction !== 'crear' && (
     <div className='w-[160px]'>
     <CrudProductos
             onCrear={() => setSelectedAction('crear')}
@@ -33,6 +42,7 @@ const Productos: React.FC = () => {
             onEliminar={() => setSelectedAction('eliminar')}
           />
     </div>
+    )}
     
     </section>
     </MainLayout>

@@ -18,7 +18,8 @@ const CrudProductos: React.FC<CrudProductosProps> = ({onCrear,onEditar,onElimina
   return (
     <section className='flex flex-col p-2 items-center gap-8 bg-Clouds rounded-2xl h-full '>
       
-      <div  className='flex flex-col items-center p-2 gap-1 w-full cursor-pointer'>
+      <div onClick={onCrear}
+      className='flex flex-col items-center p-2 gap-1 w-full cursor-pointer'>
         <IconCrear/>
         <label>Crear</label>
       </div>
