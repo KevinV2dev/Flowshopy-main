@@ -1,12 +1,11 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ExpandibleDiv from './ExpandibleDiv';
 import Spainflag from "../assets/Icons/spainflag";
 import CopyIcon from '../assets/Icons/CopyIcon';
-import { fetchAllProductsFromProjects } from '../apiServices';
 
 interface ProductAttributes {
-  id: number; // ID está directamente accesible
+  id: number;
   name: string;
   url_sale_page: string;
   url_checkout: string;
@@ -17,32 +16,31 @@ interface ProductAttributes {
   niche: string;
 }
 
-const Producto: React.FC = () => {
-  const [products, setProducts] = useState<ProductAttributes[]>([]);
+interface ProductoProps {
+  products: ProductAttributes[]; // Lista de productos
+  onDeleteSelected: () => void;
+  onCheckboxChange: (productId: number) => void;
+  selectedProducts: number[];
+}
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        const productData = await fetchAllProductsFromProjects();
-        setProducts(productData);
-      } catch (error) {
-        console.error('Error al cargar los productos:', error);
-      }
-    };
-
-    loadProducts();
-  }, []);
-
+const Producto: React.FC<ProductoProps> = ({ products, onCheckboxChange, selectedProducts }) => {
   return (
     <div className="space-y-4">
+      {/* Lista de productos */}
       {products.map((product) => (
         <ExpandibleDiv
           key={product.id}
           headerContent={
             <header className="justify-between px-16 flex items-center cursor-pointer">
               <div className="flex gap-8">
-                <input type="checkbox" name="" id="" />
-                <label><Spainflag /></label>
+                <input
+                  type="checkbox"
+                  checked={selectedProducts.includes(product.id)}
+                  onChange={() => onCheckboxChange(product.id)}
+                />
+                <label>
+                  <Spainflag />
+                </label>
               </div>
 
               <div>

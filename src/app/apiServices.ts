@@ -189,6 +189,20 @@ export const fetchNiches = async (): Promise<{ id: number; name: string }[]> => 
   }
 };
 
+// Función para eliminar un producto por su ID
+export const deleteProduct = async (productId: number) => {
+  try {
+    const response = await apiFetch(`/products/${productId}`, {
+      method: 'DELETE',
+    });
+    console.log(`Producto ${productId} eliminado con éxito.`);
+    return response;
+  } catch (error) {
+    console.error(`Error al eliminar el producto ${productId}:`, error);
+    throw error;
+  }
+};
+
 
 
 
