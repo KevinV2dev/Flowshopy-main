@@ -203,6 +203,32 @@ export const deleteProduct = async (productId: number) => {
   }
 };
 
+// Función para obtener todos los productos, incluyendo los que no tienen proyecto asignado
+export const fetchAllProducts = async () => {
+  try {
+    const response = await apiFetch('/products?populate=niche_id'); // Incluimos niche_id si es necesario
+    const productsData = response.data;
+
+    // Mapeamos los productos para obtener solo los datos relevantes
+    const products = productsData.map((product: any) => ({
+      id: product.id,
+      name: product.attributes.name,
+      url_sale_page: product.attributes.url_sale_page,
+      url_checkout: product.attributes.url_checkout,
+      url_promote: product.attributes.url_promote,
+      cta_header: product.attributes.cta_header,
+      cta_footer: product.attributes.cta_footer,
+      createdAt: product.attributes.createdAt,
+      niche: product.attributes.niche_id?.data?.attributes?.name || 'Sin Nicho Asignado', // Si no tiene niche asignado
+    }));
+
+    return products;
+  } catch (error) {
+    console.error('Error al obtener todos los productos:', error);
+    throw error;
+  }
+};
+
 
 
 

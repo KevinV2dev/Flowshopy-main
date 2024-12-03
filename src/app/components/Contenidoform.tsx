@@ -65,7 +65,7 @@ const Contenidolist: React.FC = () => {
       const pageSize = 10;
       const response = await fetch(`https://strapi-admin-dev.flowshopy.com.br/api/posts?pagination[page]=${page}&pagination[pageSize]=${pageSize}&populate=*`, {
         headers: {
-          'Authorization': 'Bearer 5e83fc8957ff280e41f5046aee2df3c9dd4d9f6eb5e2c4f28ffc211d1c1490c60d8d605901692f3a0f370f89f05db19581ed4a13f65abcdfbac6481e2515dbb2885e47601a90af5a387af5ed5dec572c85400f63ffe86b8d5947d6bd2ec6a0ceefe6e41225f5e850a61a4376e739b5957a2931bee16c9ac354e69864b7136e16',
+          'Authorization': 'Bearer 91bf640cc5ef51b0caf5d475bc5484581938433dfa9076e3448aa285af20cbce30c9353951fa14ab17cc28701724529f3bb26d185d8ffe6247dd81b1bb2cc2f83c8d6f92052181c3d34649cb4382a0e4641e2cfab45876d3c110ab40975344ddd0526b06ed474bab5dbb7b114f9d2aeb3b7d715faf05e22641e01ea3b956ba20',
         },
       });
 

@@ -5,7 +5,7 @@ import Bigredes from '@/app/components/Bigredes-side';
 import CrudProductos from '@/app/components/CrudProductos';
 import Crearproducto from '@/app/components/CrearProducto';
 import Producto from '@/app/components/Productos';
-import { fetchAllProductsFromProjects, deleteProduct } from '@/app/apiServices';
+import { fetchAllProducts, deleteProduct } from '@/app/apiServices';
 
 const Productos: React.FC = () => {
   const [selectedAction, setSelectedAction] = useState<'ver' | 'crear' | 'editar' | 'eliminar'>('ver');
@@ -16,7 +16,7 @@ const Productos: React.FC = () => {
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const productData = await fetchAllProductsFromProjects();
+        const productData = await fetchAllProducts();
         setProducts(productData);
       } catch (error) {
         console.error('Error al cargar los productos:', error);
