@@ -5,29 +5,40 @@ import IconFacebook from '../assets/Icons/IconFacebook';
 import IconYt from '../assets/Icons/IconYt';
 import IconX from '../assets/Icons/IconX';
 
-const redesItems = [
-  {name: 'Instagram', icon: <IconInstagram className='side-redes'/> },
-  {name: 'Tiktok', icon:<IconTiktok/>},
-  {name:'Facebook', icon:<IconFacebook/>},
-  {name:'Youtube', icon:<IconYt/>},
-  {name:'Twitter', icon:<IconX/>}
-]
+interface SideredesProps {
+  selectedNetwork: string;
+  onNetworkSelect: (network: string) => void;
+}
 
-const sidered: React.FC = () => {
+const redesItems = [
+  {id: 'instagram', name: 'Instagram ', icon: <IconInstagram className='side-redes'/> },
+  {id: 'tiktok', name: 'Tiktok', icon: <IconTiktok/>},
+  {id: 'facebook', name: 'Facebook', icon: <IconFacebook/>},
+  {id: 'youtube', name: 'Youtube', icon: <IconYt/>},
+  {id: 'twitter', name: 'Twitter', icon: <IconX/>}
+];
+
+const Sidered: React.FC<SideredesProps> = ({ selectedNetwork, onNetworkSelect }) => {
   return (
     <>
-    {redesItems.map((item) => (
-      <div className='group side-redes flex items-center px-4 py-1  gap-4 hover:bg-Selector cursor-pointer hover:rounded-md active:bg-PrimaryF active:rounded-md'
-              key={item.name}>
-                {item.icon}
-                <span className='side-redes-span group-active:text-Clouds'>{item.name}</span>
+      {redesItems.map((item) => {
+        const isSelected = selectedNetwork === item.id.toLowerCase();
+        return (
+          <div 
+            className={`group side-redes flex items-center px-4 py-1 gap-4 cursor-pointer rounded-md
+              ${isSelected ? 'bg-PrimaryF text-Clouds [&_*]:text-Clouds [&_*]:fill-Clouds' : 'hover:bg-Selector'}`}
+            key={item.name}
+            onClick={() => onNetworkSelect(item.id.toLowerCase())}
+          >
+            {item.icon}
+            <span className="side-redes-span">
+              {item.name}
+            </span>
           </div>
-      
-    ))}
-      
-     
+        );
+      })}
     </>
   );
 };
 
-export default sidered;
+export default Sidered;

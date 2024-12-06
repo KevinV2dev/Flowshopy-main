@@ -13,7 +13,7 @@ const CustomCheckboxProject: React.FC<CustomCheckboxProps> = ({ checked, onChang
     >
       {/* Base box - always visible */}
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-        <rect x="1" y="1" width="18" height="18" rx="2" stroke="#6335FF" strokeWidth="2"/>
+        <rect x="1" y="1" width="18" height="18" rx="4" stroke="#6335FF" strokeWidth="3"/>
       </svg>
       
       {/* Check mark - only visible when checked */}
@@ -29,7 +29,7 @@ const CustomCheckboxProject: React.FC<CustomCheckboxProps> = ({ checked, onChang
           <path
             d="M11.6666 3.5L5.24992 9.91667L2.33325 7"
             stroke="#6335FF"
-            strokeWidth="2.5"
+            strokeWidth="3.5"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
