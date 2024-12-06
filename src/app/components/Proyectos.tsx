@@ -4,6 +4,7 @@ import Image from 'next/image';
 import CopyIcon from '../assets/Icons/CopyIcon';
 import CheckIcon from '../assets/Icons/Checkicon';
 import apiFetch, { fetchPostsByProject } from '../apiServices';
+import CustomCheckboxProject from './CustomCheckboxProject';
 
 interface Project {
   id: number;
@@ -25,6 +26,7 @@ const Proyectos: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [posts, setPosts] = useState<{ [key: number]: Post[] }>({});
   const [expandedItem, setExpandedItem] = useState<number | null>(null);
+  const [checkedItems, setCheckedItems] = useState<{ [key: number]: boolean }>({});
   const [error, setError] = useState<string | null>(null);
 
   const fetchProjects = async () => {
@@ -74,10 +76,19 @@ const Proyectos: React.FC = () => {
           <div
             key={project.id}
             className="bg-Clouds rounded-2xl py-10 px-16 transition-all duration-500 cursor-pointer"
+            onClick={() => toggleExpand(project.id)}
           >
-            <div onClick={() => toggleExpand(project.id)} className="flex justify-between items-center">
-              <div className="flex items-center space-x-4">
-                <input type="checkbox" />
+            <div className="flex justify-between items-center">
+              <div className="flex items-center space-x-4" onClick={(e) => e.stopPropagation()}>
+                <CustomCheckboxProject
+                  checked={!!checkedItems[project.id]}
+                  onChange={(checked) => {
+                    setCheckedItems((prev) => ({
+                      ...prev,
+                      [project.id]: checked,
+                    }));
+                  }}
+                />
                 <Image src="/spainflag.svg" width={41} height={28} alt="flag" />
               </div>
 
@@ -133,8 +144,7 @@ const Proyectos: React.FC = () => {
                     </div>
                   ))
                 ) : (
-                  <h3>Cargando contenidos...</h3> 
-                  
+                  <h3>Cargando contenidos...</h3>
                 )}
               </div>
             </div>

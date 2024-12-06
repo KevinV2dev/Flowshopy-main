@@ -8,6 +8,7 @@ import bible from '../assets/images/bible.png';
 import { Video } from "lucide-react";
 import CopyIcon from "../assets/Icons/CopyIcon";
 import { fetchPostsByProject } from "../apiServices";
+import CustomCheckboxProject from "./CustomCheckboxProject";
 
 interface Post {
   id: string;
@@ -51,9 +52,10 @@ const LinkedVideo: Video[] = [
 
 const Contenidolist: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
-  const [projects, setProjects] = useState<{ [key: number]: Project }>([]);
+  const [projects, setProjects] = useState<{ [key: number]: Project }>({});
   const [tags, setTags] = useState<string[]>([]);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
+  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -116,7 +118,15 @@ const Contenidolist: React.FC = () => {
         <div key={post.id} className="flex flex-col py-11 px-8 rounded-2xl bg-Clouds cursor-pointer" onClick={() => toggleExpand(post.id)}>
           <div className="flex justify-between items-center">
             <div className="flex gap-4 items-center" onClick={(e) => e.stopPropagation()}>
-              <input type="checkbox" id={`check-${post.id}`} className="w-6 h-6 cursor-pointer rounded-2xl border-PrimaryF" />
+              <CustomCheckboxProject
+                checked={!!checkedItems[post.id]}
+                onChange={(checked) => {
+                  setCheckedItems(prev => ({
+                    ...prev,
+                    [post.id]: checked
+                  }));
+                }}
+              />
               <label><Spainflag /></label>
             </div>
 

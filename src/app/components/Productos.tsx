@@ -3,6 +3,7 @@ import React from 'react';
 import ExpandibleDiv from './ExpandibleDiv';
 import Spainflag from "../assets/Icons/spainflag";
 import CopyIcon from '../assets/Icons/CopyIcon';
+import CustomCheckboxProject from './CustomCheckboxProject';
 
 interface ProductAttributes {
   id: number;
@@ -32,9 +33,8 @@ const Producto: React.FC<ProductoProps> = ({ products, onCheckboxChange, selecte
           key={product.id}
           headerContent={
             <header className="justify-between px-16 flex items-center cursor-pointer">
-              <div className="flex gap-8">
-                <input
-                  type="checkbox"
+              <div className="flex gap-8" onClick={(e) => e.stopPropagation()}>
+                <CustomCheckboxProject
                   checked={selectedProducts.includes(product.id)}
                   onChange={() => onCheckboxChange(product.id)}
                 />
