@@ -55,10 +55,10 @@ const CreatorForm: React.FC = () => {
         const data = await fetchProjects(); // Llama a la función actualizada de `apiServices`
         setProjects(data.data);
         setFilteredProjects(data.data);
-  
+
         // Agregar log para verificar que `product_id` esté presente
         console.log('Proyectos obtenidos con `product_id`:', data.data);
-  
+
       } catch (error) {
         console.error('Error al obtener proyectos:', error);
       }
@@ -84,34 +84,34 @@ const CreatorForm: React.FC = () => {
   const saveDraft = async () => {
     const file = document.getElementById("image-upload") as HTMLInputElement;
     const fileToUpload = file?.files ? file.files[0] : null;
-  
+
     if (!fileToUpload) {
       alert('Por favor, selecciona una imagen antes de guardar el borrador.');
       return;
     }
-  
+
     if (!selectedProject) {
       alert('Por favor, selecciona un proyecto antes de guardar el borrador.');
       return;
     }
-  
+
     const project = projects.find((p) => p.id === selectedProject);
-  
+
     if (!project || !project.attributes.product_id?.data) {
       alert('El proyecto seleccionado no tiene un producto relacionado. Por favor, selecciona otro proyecto.');
       return;
     }
-  
+
     try {
       let uploadedImageId = imageId;
-  
+
       if (!isImageUploaded) {
         uploadedImageId = await uploadImage(fileToUpload);
         setImageId(uploadedImageId);
         setIsImageUploaded(true);
         console.log('Imagen subida y guardada como borrador');
       }
-  
+
       if (uploadedImageId) {
         if (!postId && selectedCategory.id !== null) {
           const newPostResponse = await createPostWithProject(
@@ -145,7 +145,7 @@ const CreatorForm: React.FC = () => {
         },
         body: JSON.stringify({ uuid }),
       });
-  
+
       if (!response.ok) {
         throw new Error('Error al enviar el UUID a la otra API');
       }
@@ -162,22 +162,22 @@ const CreatorForm: React.FC = () => {
       alert('Por favor, sube una imagen y guarda el borrador antes de crear el video.');
       return;
     }
-  
+
     if (!selectedProject) {
       alert('Por favor, selecciona un proyecto');
       return;
     }
-  
+
     const project = projects.find((p) => p.id === selectedProject);
-  
+
     if (!project || !project.attributes.product_id?.data) {
       alert('El proyecto seleccionado no tiene un producto relacionado. Por favor, selecciona otro proyecto.');
       return;
     }
-  
+
     try {
       let postUUID = null;
-  
+
       // Crear o actualizar el post y capturar el UUID del post
       if (postId && typeof postId === 'number') {
         const updatedPostResponse = await updatePost(postId, title, content, imageId!, tags);
@@ -201,7 +201,7 @@ const CreatorForm: React.FC = () => {
           return;
         }
       }
-  
+
       // Enviar el UUID del post a la otra API
       if (postUUID) {
         await sendUUIDToAnotherAPI(postUUID);
@@ -232,12 +232,12 @@ const CreatorForm: React.FC = () => {
                 <Image
                   src={item.image}
                   alt={item.text}
-                  width={296}
-                  height={190}
+                  width={320}
+                  height={246}
                   className="rounded-lg"
                 />
-                <div>
-                  <span>{item.text}</span>
+                <div className='mt-2'>
+                  <span className={`font-medium ${activecard === index ? 'text-Clouds' : ''}`}>{item.text}</span>
                 </div>
               </div>
             ))}

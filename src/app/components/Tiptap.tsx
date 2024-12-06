@@ -4,6 +4,8 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Toolbar from "./Toolbar";
 import Underline from "@tiptap/extension-underline";
+import Placeholder from "@tiptap/extension-placeholder";
+import CharacterCount from '@tiptap/extension-character-count'
 
 const Tiptap = ({ onChange, content }: any) => {
   const handleChange = (newContent: string) => {
@@ -13,12 +15,26 @@ const Tiptap = ({ onChange, content }: any) => {
   };
 
   const editor = useEditor({
-    extensions: [StarterKit, Underline],
+    extensions: [
+      StarterKit.configure({
+        heading: {
+          levels: [1, 2],
+        },
+      }), 
+      Underline,
+      Placeholder.configure({
+        placeholder: 'Escribe tu contenido aquí...',
+        emptyEditorClass: 'is-editor-empty',
+      }),
+      CharacterCount.configure({
+        limit: 280
+      })
+    ],
     content: content,
     editorProps: {
       attributes: {
         class:
-          "flex flex-col px-4 py-3 justify-start border-b border-r border-l border-gray-700 text-gray-400 items-start w-full gap-3 font-medium text-[16px] pt-4 rounded-bl-md rounded-br-md outline-none",
+          "prose prose-sm max-w-none focus:outline-none min-h-[200px] py-4 px-2",
       },
     },
     onUpdate: ({ editor }) => {
@@ -26,15 +42,20 @@ const Tiptap = ({ onChange, content }: any) => {
     },
   });
 
-  // Asegúrate de que el editor esté inicializado antes de renderizar
   if (!editor) {
     return null;
   }
 
   return (
-    <div className="w-full px-4">
+    <div className="w-[1116px] h-[584px] bg-white rounded-lg shadow-sm flex flex-col">
       <Toolbar editor={editor} content={content} />
-      <EditorContent style={{ whiteSpace: "pre-line" }} editor={editor} />
+      <EditorContent 
+        editor={editor} 
+        className="prose max-w-none flex-1 px-8 py-4 overflow-y-auto focus:outline-none"
+      />
+      <div className="px-8 py-2 text-sm text-gray-500 border-t">
+        {editor?.storage.characterCount.characters()} words
+      </div>
     </div>
   );
 };

@@ -11,10 +11,10 @@ import {
   Heading1,
   Heading2,
   Underline,
-  Quote,
-  Undo,
-  Redo,
-  Code,
+  Link as LinkIcon,
+  Image,
+  RotateCcw,
+  RotateCw,
 } from "lucide-react";
 
 type Props = {
@@ -22,175 +22,132 @@ type Props = {
   content: string;
 };
 
-const Toolbar = ({ editor, content }: Props) => {
+const ToolbarButton = ({ 
+  onClick, 
+  isActive, 
+  children, 
+  className = "" 
+}: { 
+  onClick: (e: React.MouseEvent) => void;
+  isActive?: boolean;
+  children: React.ReactNode;
+  className?: string;
+}) => (
+  <button
+    onClick={(e) => {
+      e.preventDefault();
+      onClick(e);
+    }}
+    className={`p-1 rounded hover:bg-gray-100 ${
+      isActive ? "text-blue-500" : "text-gray-600"
+    } ${className}`}
+  >
+    {children}
+  </button>
+);
+
+const Toolbar = ({ editor }: Props) => {
   if (!editor) {
     return null;
   }
-  return (
-    <div
-      className="px-4 py-3 rounded-tl-md rounded-tr-md flex justify-between items-start
-    gap-5 w-full flex-wrap  "
-    >
-      <div className="flex justify-start items-center gap-5 w-full lg:w-10/12 flex-wrap ">
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            editor.chain().focus().toggleBold().run();
-          }}
-          className={
-            editor.isActive("bold")
-              ? "bg-sky-700 text-white p-2 rounded-lg"
-              : "text-black"
-          }
-        >
-          <Bold className="w-5 h-5" />
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            editor.chain().focus().toggleItalic().run();
-          }}
-          className={
-            editor.isActive("italic")
-              ? "bg-sky-700 text-white p-2 rounded-lg"
-              : "text-black"
-          }
-        >
-          <Italic className="w-5 h-5" />
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            editor.chain().focus().toggleUnderline().run();
-          }}
-          className={
-            editor.isActive("underline")
-              ? "bg-sky-700 text-white p-2 rounded-lg"
-              : "text-black"
-          }
-        >
-          <Underline className="w-5 h-5" />
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            editor.chain().focus().toggleStrike().run();
-          }}
-          className={
-            editor.isActive("strike")
-              ? "bg-sky-700 text-white p-2 rounded-lg"
-              : "text-black"
-          }
-        >
-          <Strikethrough className="w-5 h-5" />
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            editor.chain().focus().toggleHeading({ level: 2 }).run();
-          }}
-          className={
-            editor.isActive("heading", { level: 2 })
-              ? "bg-sky-700 text-white p-2 rounded-lg"
-              : "text-black"
-          }
-        >
-          <Heading2 className="w-5 h-5" />
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            editor.chain().focus().toggleHeading({ level: 1 }).run();
-          }}
-          className={
-            editor.isActive("heading", { level: 1 })
-              ? "bg-sky-700 text-white p-2 rounded-lg"
-              : "text-black"
-          }
-        >
-          <Heading1 className="w-5 h-5" />
-        </button>
 
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            editor.chain().focus().toggleBulletList().run();
-          }}
-          className={
-            editor.isActive("bulletList")
-              ? "bg-sky-700 text-white p-2 rounded-lg"
-              : "text-black"
+  const items = [
+    {
+      icon: <RotateCcw className="w-4 h-4" />,
+      onClick: () => editor.chain().focus().undo().run(),
+      isActive: false,
+    },
+    {
+      icon: <RotateCw className="w-4 h-4" />,
+      onClick: () => editor.chain().focus().redo().run(),
+      isActive: false,
+    },
+    {
+      type: "divider",
+    },
+    {
+      icon: <Bold className="w-4 h-4" />,
+      onClick: () => editor.chain().focus().toggleBold().run(),
+      isActive: editor.isActive("bold"),
+    },
+    {
+      icon: <Italic className="w-4 h-4" />,
+      onClick: () => editor.chain().focus().toggleItalic().run(),
+      isActive: editor.isActive("italic"),
+    },
+    {
+      icon: <Underline className="w-4 h-4" />,
+      onClick: () => editor.chain().focus().toggleUnderline().run(),
+      isActive: editor.isActive("underline"),
+    },
+    {
+      icon: <Strikethrough className="w-4 h-4" />,
+      onClick: () => editor.chain().focus().toggleStrike().run(),
+      isActive: editor.isActive("strike"),
+    },
+    {
+      type: "divider",
+    },
+    {
+      icon: <List className="w-4 h-4" />,
+      onClick: () => editor.chain().focus().toggleBulletList().run(),
+      isActive: editor.isActive("bulletList"),
+    },
+    {
+      icon: <ListOrdered className="w-4 h-4" />,
+      onClick: () => editor.chain().focus().toggleOrderedList().run(),
+      isActive: editor.isActive("orderedList"),
+    },
+    {
+      type: "divider",
+    },
+    {
+      icon: <LinkIcon className="w-4 h-4" />,
+      onClick: () => {
+        const url = window.prompt("URL:");
+        if (url) {
+          editor.chain().focus().setLink({ href: url }).run();
+        }
+      },
+      isActive: editor.isActive("link"),
+    },
+    {
+      icon: <Image className="w-4 h-4" />,
+      onClick: () => {
+        const url = window.prompt("URL de la imagen:");
+        if (url) {
+          editor.chain().focus().setImage({ src: url }).run();
+        }
+      },
+      isActive: editor.isActive("image"),
+    },
+  ];
+
+  return (
+    <div className="border-b border-gray-200">
+      <div className="px-3 py-2 flex items-center justify-center gap-1">
+        {items.map((item, index) => {
+          if (item.type === "divider") {
+            return (
+              <div
+                key={index}
+                className="w-[1px] h-4 bg-gray-200 mx-2"
+              />
+            );
           }
-        >
-          <List className="w-5 h-5" />
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            editor.chain().focus().toggleOrderedList().run();
-          }}
-          className={
-            editor.isActive("orderedList")
-              ? "bg-sky-700 text-white p-2 rounded-lg"
-              : "text-black"
-          }
-        >
-          <ListOrdered className="w-5 h-5" />
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            editor.chain().focus().toggleBlockquote().run();
-          }}
-          className={
-            editor.isActive("blockquote")
-              ? "bg-sky-700 text-white p-2 rounded-lg"
-              : "text-black"
-          }
-        >
-          <Quote className="w-5 h-5" />
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            editor.chain().focus().setCode().run();
-          }}
-          className={
-            editor.isActive("code")
-              ? "bg-sky-700 text-white p-2 rounded-lg"
-              : "text-black"
-          }
-        >
-          <Code className="w-5 h-5" />
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            editor.chain().focus().undo().run();
-          }}
-          className={
-            editor.isActive("undo")
-              ? "bg-sky-700 text-white p-2 rounded-lg"
-              : "text-black hover:bg-sky-700 hover:text-white p-1 hover:rounded-lg"
-          }
-        >
-          <Undo className="w-5 h-5" />
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            editor.chain().focus().redo().run();
-          }}
-          className={
-            editor.isActive("redo")
-              ? "bg-sky-700 text-white p-2 rounded-lg"
-              : "text-black hover:bg-sky-700 hover:text-white p-1 hover:rounded-lg"
-          }
-        >
-          <Redo className="w-5 h-5" />
-        </button>
+
+          return (
+            <ToolbarButton
+              key={index}
+              onClick={item.onClick}
+              isActive={item.isActive}
+              className="hover:bg-gray-50"
+            >
+              {item.icon}
+            </ToolbarButton>
+          );
+        })}
       </div>
-      
     </div>
   );
 };
