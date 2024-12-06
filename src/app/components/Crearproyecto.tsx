@@ -23,7 +23,7 @@ const Crearproyecto: React.FC<Props> = ({ onCancelar }) => {
               <span className='text-DarkOcean text-xl font-semibold'>
                 Elige un titulo para tu 
                   <span className=' inline-flex px-1'>
-                    <span className='text-PrimaryF'>Proyecto:</span>
+                    <span className='text-PrimaryF'>proyecto:</span>
                     <Image src='/proyectocheck.svg' className='ml-[10px]' width={24} height={24} alt="flag"/> 
                   </span> 
                </span>
@@ -37,12 +37,12 @@ const Crearproyecto: React.FC<Props> = ({ onCancelar }) => {
             <div className='bg-Clouds flex flex-col gap-4 p-4 rounded-2xl'> 
               <span className='font-semibold text-xl'> Enlaza tu post a un
                 <span className=' inline-flex px-1'>
-                      <span className='text-PrimaryF'>Pruducto:</span>
+                      <span className='text-PrimaryF'>pruducto:</span>
                       <Image src='/proyectocheck.svg' className='ml-[10px]' width={24} height={24} alt="flag"/> 
                 </span> 
               </span>
                   <InputSearch
-              placeholder='Busca un Producto'
+              placeholder='Busca un producto'
               type='search'
               icon={<Iconsearch />}
               value={searchValue}
@@ -58,7 +58,7 @@ const Crearproyecto: React.FC<Props> = ({ onCancelar }) => {
             <div className='bg-Clouds flex flex-col gap-4 p-4 rounded-2xl'>
             <span className='font-semibold text-xl'> Elige un
                 <span className=' inline-flex px-1'>
-                      <span className='text-PrimaryF'>Idioma</span>
+                      <span className='text-PrimaryF'>idioma</span>
                       <span className='px-1'>para nuestro proyecto :</span>
                       <Image src='/proyectocheck.svg' className='ml-[10px]' width={24} height={24} alt="flag"/> 
                 </span> 
@@ -70,7 +70,7 @@ const Crearproyecto: React.FC<Props> = ({ onCancelar }) => {
               value={searchValue2}
               onChange={(newValue) => setSearchValue2(newValue)} results={[]} onResultSelect={function (id: number, name: string): void {
                 throw new Error('Funcion no implementada');
-              } }                  />
+              } }    />
 
                <div className='flex gap-4 '>
                 <label className='rounded-2xl bg-Selector text-DarkGray py-1 px-4'> Inglés </label>

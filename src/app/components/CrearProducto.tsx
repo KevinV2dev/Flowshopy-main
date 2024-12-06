@@ -99,7 +99,7 @@ const Crearproducto: React.FC<Productoprops> = ({ onCancelar }) => {
       <section className="gap-4 flex flex-col grow">
         {/* Nombre del producto */}
         <SectionInput
-          label="Nombre del Producto:"
+          label="Nombre del producto:"
           placeholder="Introduce el nombre del producto"
           value={formData.name}
           onChange={(value) => handleInputChange('name', value)}
@@ -115,7 +115,7 @@ const Crearproducto: React.FC<Productoprops> = ({ onCancelar }) => {
 
         {/* CTA Header */}
         <SectionInput
-          label="Titular del producto (CTA Header):"
+          label="Titular del producto (CTA header):"
           placeholder="Escribe un titular atractivo"
           value={formData.cta_header}
           onChange={(value) => handleInputChange('cta_header', value)}
@@ -131,7 +131,7 @@ const Crearproducto: React.FC<Productoprops> = ({ onCancelar }) => {
 
         {/* Sale URL */}
         <SectionInput
-          label="URL de Venta:"
+          label="URL de venta:"
           placeholder="https://www.tu-sitio-venta.com"
           value={formData.url_sale_page}
           onChange={(value) => handleInputChange('url_sale_page', value)}
@@ -139,7 +139,7 @@ const Crearproducto: React.FC<Productoprops> = ({ onCancelar }) => {
 
         {/* Checkout URL */}
         <SectionInput
-          label="URL de Compra (Checkout):"
+          label="URL de compra (Checkout):"
           placeholder="https://www.tu-sitio-compra.com"
           value={formData.url_checkout}
           onChange={(value) => handleInputChange('url_checkout', value)}
@@ -147,7 +147,7 @@ const Crearproducto: React.FC<Productoprops> = ({ onCancelar }) => {
 
         {/* Promotion URL */}
         <SectionInput
-          label="URL de Promoción:"
+          label="URL de promoción:"
           placeholder="https://www.tu-sitio-promocion.com"
           value={formData.url_promote}
           onChange={(value) => handleInputChange('url_promote', value)}

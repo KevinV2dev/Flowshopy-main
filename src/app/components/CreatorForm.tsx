@@ -254,7 +254,7 @@ const CreatorForm: React.FC = () => {
 
       <div className="link-Project bg-Clouds flex flex-col p-4 rounded-2xl gap-2 ">
         <span className="text-xl font-semibold">
-          Enlaza tu post a un <span className="text-PrimaryF">Proyecto:</span>{' '}
+          Enlaza tu post a un <span className="text-PrimaryF">proyecto:</span>{' '}
         </span>
         <div className="w-full relative">
         <InputSearch
@@ -289,7 +289,7 @@ const CreatorForm: React.FC = () => {
 
       <div className="bg-Clouds flex flex-col p-4 rounded-2xl gap-2">
         <span className="text-DarkOcean text-xl font-semibold p-2">
-          Elige una <span className="text-PrimaryF">Categoria</span> para tu Proyecto:
+          Elige una <span className="text-PrimaryF">categoria</span> para tu Proyecto:
         </span>
         <CategorySearch
           placeholder="Buscar categoría"

@@ -12,7 +12,7 @@ interface InputProps {
 }
 
 const InputSearch: React.FC<InputProps> = ({
-  placeholder = 'Busca Aquí',
+  placeholder = 'Busca aquí',
   type = 'search',
   icon = <Iconsearch />,
   value,

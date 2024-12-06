@@ -80,7 +80,7 @@ const ImageuploadCreator: React.FC<ImageUploadCreatorProps> = ({ onImageUpload }
             className="bg-PrimaryF py-2 px-4 rounded-2xl text-Clouds"
             onClick={handleButtonClick}
           >
-            {uploadedImage ? 'Reemplazar imagen' : 'Sube un Archivo'}
+            {uploadedImage ? 'Reemplazar imagen' : 'Sube un archivo'}
           </button>
 
           {uploadedImage && (
