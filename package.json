@@ -13,6 +13,8 @@
     "@ckeditor/ckeditor5-react": "^9.1.0",
     "@fontsource/poppins": "^5.0.15",
     "@tiptap/extension-character-count": "^2.10.3",
+    "@tiptap/extension-image": "^2.10.3",
+    "@tiptap/extension-link": "^2.10.3",
     "@tiptap/extension-placeholder": "^2.10.3",
     "@tiptap/extension-underline": "^2.10.3",
     "@tiptap/pm": "^2.6.6",

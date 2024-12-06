@@ -6,6 +6,8 @@ import Toolbar from "./Toolbar";
 import Underline from "@tiptap/extension-underline";
 import Placeholder from "@tiptap/extension-placeholder";
 import CharacterCount from '@tiptap/extension-character-count'
+import Link from '@tiptap/extension-link';
+import Image from '@tiptap/extension-image';
 
 const Tiptap = ({ onChange, content }: any) => {
   const handleChange = (newContent: string) => {
@@ -28,7 +30,18 @@ const Tiptap = ({ onChange, content }: any) => {
       }),
       CharacterCount.configure({
         limit: 280
-      })
+      }),
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+          class: 'text-blue-500 hover:text-blue-600 underline',
+        },
+      }),
+      Image.configure({
+        HTMLAttributes: {
+          class: 'max-w-full h-auto',
+        },
+      }),
     ],
     content: content,
     editorProps: {
