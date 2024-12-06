@@ -51,7 +51,7 @@ const LinkedVideo: Video[] = [
 
 const Contenidolist: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
-  const [projects, setProjects] = useState<{ [key: number]: Project }>({});
+  const [projects, setProjects] = useState<{ [key: number]: Project }>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -72,11 +72,10 @@ const Contenidolist: React.FC = () => {
       const data = await response.json();
       const newPosts = Array.isArray(data.data) ? data.data : [];
 
-      const newTags = newPosts.flatMap((post: Post) => 
+      const newTags = newPosts.flatMap((post: Post) =>
         post.attributes.tags.map((tag: { name: string }) => tag.name)
       );
       setTags(prevTags => Array.from(new Set([...prevTags, ...newTags])));
-  
 
       setPosts(prevPosts => [...prevPosts, ...newPosts]);
       setPage(prevPage => prevPage + 1);
@@ -114,9 +113,9 @@ const Contenidolist: React.FC = () => {
   return (
     <div className="flex flex-col gap-4">
       {posts.map((post) => (
-        <div key={post.id} className="flex flex-col py-11 px-8 rounded-2xl bg-Clouds">
-          <div onClick={() => toggleExpand(post.id)} className="flex justify-between items-center cursor-pointer">
-            <div className="flex gap-4 items-center">
+        <div key={post.id} className="flex flex-col py-11 px-8 rounded-2xl bg-Clouds cursor-pointer" onClick={() => toggleExpand(post.id)}>
+          <div className="flex justify-between items-center">
+            <div className="flex gap-4 items-center" onClick={(e) => e.stopPropagation()}>
               <input type="checkbox" id={`check-${post.id}`} className="w-6 h-6 cursor-pointer rounded-2xl border-PrimaryF" />
               <label><Spainflag /></label>
             </div>
@@ -209,6 +208,5 @@ const Contenidolist: React.FC = () => {
     </div>
   );
 };
-
 
 export default Contenidolist;
